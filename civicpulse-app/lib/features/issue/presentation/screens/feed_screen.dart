@@ -270,17 +270,57 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
               if (_showSplitMap)
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 6, 16, 8),
-                  child: CivicMapWidget(
-                    centerLatitude: _userLat,
-                    centerLongitude: _userLng,
-                    height: 300,
-                    issues: filtered,
-                    selectedIssue: _selectedMapIssue,
-                    showUserRadar: true,
-                    onIssueSelected: (issue) {
-                      setState(() => _selectedMapIssue = issue);
-                      context.push('/issues/${issue.id}');
-                    },
+                  child: Stack(
+                    children: [
+                      CivicMapWidget(
+                        centerLatitude: _userLat,
+                        centerLongitude: _userLng,
+                        height: 280,
+                        issues: filtered,
+                        selectedIssue: _selectedMapIssue,
+                        showUserRadar: true,
+                        onIssueSelected: (issue) {
+                          setState(() => _selectedMapIssue = issue);
+                          context.push('/issues/${issue.id}');
+                        },
+                      ),
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: GestureDetector(
+                          onTap: () => context.push('/map'),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.94),
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.2),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.fullscreen, size: 16, color: AppColors.primary),
+                                SizedBox(width: 4),
+                                Text(
+                                  'Full Map',
+                                  style: TextStyle(
+                                    fontSize: 11.5,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -313,11 +353,15 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                       ),
                     ),
                     const Spacer(),
-                    if (_selectedMapIssue != null)
-                      TextButton(
-                        onPressed: () => setState(() => _selectedMapIssue = null),
-                        child: const Text('Clear Focus', style: TextStyle(fontSize: 12)),
+                    TextButton.icon(
+                      style: TextButton.styleFrom(
+                        visualDensity: VisualDensity.compact,
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                       ),
+                      onPressed: () => context.push('/map'),
+                      icon: const Icon(Icons.map_outlined, size: 15),
+                      label: const Text('Interactive Map', style: TextStyle(fontSize: 12)),
+                    ),
                   ],
                 ),
               ),

@@ -8,7 +8,7 @@ import 'package:civicpulse_app/features/home/presentation/home_screen.dart';
 import 'package:civicpulse_app/features/issue/presentation/screens/issue_detail_screen.dart';
 import 'package:civicpulse_app/features/issue/presentation/screens/report_issue_screen.dart';
 import 'package:civicpulse_app/features/issue/presentation/screens/report_success_screen.dart';
-
+import 'package:civicpulse_app/features/map/presentation/complaints_map_screen.dart';
 import 'package:civicpulse_app/features/splash/presentation/splash_screen.dart';
 
 class GoRouterRefreshNotifier extends ChangeNotifier {
@@ -73,6 +73,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           final issueId = state.pathParameters['id'] ?? '';
           return IssueDetailScreen(issueId: issueId);
         },
+      ),
+      GoRoute(
+        path: '/map',
+        builder: (context, state) => const ComplaintsMapScreen(),
       ),
       GoRoute(
         path: '/report-success/:id',

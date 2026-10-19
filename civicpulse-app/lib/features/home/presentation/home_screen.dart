@@ -7,6 +7,7 @@ import 'package:civicpulse_app/features/auth/application/auth_controller.dart';
 import 'package:civicpulse_app/features/issue/application/issue_controller.dart';
 import 'package:civicpulse_app/features/issue/presentation/screens/feed_screen.dart';
 import 'package:civicpulse_app/features/issue/presentation/screens/my_issues_screen.dart';
+import 'package:civicpulse_app/features/map/presentation/complaints_map_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -20,6 +21,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   final _pages = const [
     FeedScreen(),
+    ComplaintsMapScreen(),
     MyIssuesScreen(),
     _ProfileTab(),
   ];
@@ -38,7 +40,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           index: _currentIndex,
           children: _pages,
         ),
-        floatingActionButton: _currentIndex == 0 || _currentIndex == 1
+        floatingActionButton: _currentIndex == 0 || _currentIndex == 2
             ? FloatingActionButton.extended(
                 onPressed: () => context.push('/report'),
                 icon: const Icon(Icons.add_a_photo_outlined),
@@ -55,6 +57,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               selectedIcon: Icon(Icons.explore),
               label: 'Explore',
               tooltip: 'Browse public civic feed',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.map_outlined),
+              selectedIcon: Icon(Icons.map),
+              label: 'Live Map',
+              tooltip: 'Geospatial complaints command map',
             ),
             NavigationDestination(
               icon: Icon(Icons.assignment_outlined),
