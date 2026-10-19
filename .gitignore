@@ -1,0 +1,57 @@
+# === Java / Spring Boot ===
+civicpulse-backend/.gradle/
+civicpulse-backend/build/
+civicpulse-backend/bin/
+civicpulse-backend/out/
+*.class
+*.jar
+*.war
+
+# === Flutter / Dart ===
+civicpulse-app/.dart_tool/
+civicpulse-app/.flutter-plugins
+civicpulse-app/.flutter-plugins-dependencies
+civicpulse-app/.packages
+civicpulse-app/build/
+civicpulse-app/.fvm/
+civicpulse-app/android/.gradle/
+civicpulse-app/android/local.properties
+civicpulse-app/ios/Pods/
+civicpulse-app/ios/.symlinks/
+civicpulse-app/ios/Flutter/Flutter.framework
+civicpulse-app/ios/Flutter/Flutter.podspec
+civicpulse-app/linux/flutter/
+civicpulse-app/macos/Flutter/
+civicpulse-app/windows/flutter/
+*.g.dart
+*.freezed.dart
+
+# === React / Node ===
+civicpulse-admin/node_modules/
+civicpulse-admin/dist/
+
+# === IDE ===
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# === OS ===
+.DS_Store
+Thumbs.db
+
+# === Environment ===
+.env
+.env.local
+.env.*.local
+
+# === Docker ===
+docker-data/
+
+# === Logs ===
+*.log
+logs/

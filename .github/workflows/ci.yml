@@ -1,0 +1,186 @@
+name: CivicPulse CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # -------------------------------------------------------------
+  # Job 1: Spring Boot Backend CI
+  # -------------------------------------------------------------
+  backend-ci:
+    name: Backend (Java 21 / Spring Boot)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./civicpulse-backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21 LTS (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'gradle'
+
+      - name: Validate Gradle wrapper checksum
+        uses: gradle/actions/wrapper-validation@v4
+
+      - name: Run Spring Boot Unit & Integration Tests
+        run: ./gradlew test --no-daemon
+
+      - name: Build Production BootJar
+        run: ./gradlew bootJar -x test --no-daemon
+
+      - name: Upload Backend Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: civicpulse-backend-jar
+          path: civicpulse-backend/build/libs/*.jar
+          retention-days: 7
+
+  # -------------------------------------------------------------
+  # Job 2: React Admin Dashboard CI
+  # -------------------------------------------------------------
+  admin-ci:
+    name: Admin Dashboard (React 19 / TypeScript / Vite)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./civicpulse-admin
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22 LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: civicpulse-admin/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Vitest Unit Tests
+        run: npm test
+
+      - name: Build Production Web Bundle
+        run: npm run build
+
+      - name: Upload Admin Web Bundle Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: civicpulse-admin-dist
+          path: civicpulse-admin/dist
+          retention-days: 7
+
+  # -------------------------------------------------------------
+  # Job 3: Flutter Mobile App CI
+  # -------------------------------------------------------------
+  flutter-ci:
+    name: Mobile App (Flutter / Dart)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./civicpulse-app
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.5'
+          channel: 'stable'
+          cache: true
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Generate Localization Files
+        run: flutter gen-l10n
+
+      - name: Run Static Code Analysis
+        run: flutter analyze --fatal-infos
+
+      - name: Run Flutter Unit and Widget Tests
+        run: flutter test
+
+      - name: Build Web Release Bundle
+        run: flutter build web --release --dart-define=API_URL=/api/v1
+
+      - name: Upload Flutter Web Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: civicpulse-flutter-web
+          path: civicpulse-app/build/web
+          retention-days: 7
+
+  # -------------------------------------------------------------
+  # Job 4: Docker & Infrastructure Linting
+  # -------------------------------------------------------------
+  docker-validation:
+    name: Container Topology Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Docker Compose Configuration
+        run: docker compose config --quiet
+        env:
+          POSTGRES_DB: civicpulse_test
+          POSTGRES_USER: civicpulse_test
+          POSTGRES_PASSWORD: test_password_12345
+          JWT_SECRET: test_jwt_secret_must_be_at_least_64_characters_long_for_hmac256_validation
+
+  # -------------------------------------------------------------
+  # Job 5: Release Staging (Manual Approval Required)
+  # -------------------------------------------------------------
+  stage-release:
+    name: Stage Production Release Images
+    runs-on: ubuntu-latest
+    needs: [backend-ci, admin-ci, flutter-ci, docker-validation]
+    if: github.ref == 'refs/heads/main'
+    # Environment 'production' enforces required reviewers / manual approval in GitHub settings
+    environment:
+      name: production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Backend Production Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./civicpulse-backend
+          file: ./civicpulse-backend/Dockerfile
+          push: false
+          tags: civicpulse-backend:${{ github.sha }}
+
+      - name: Build Admin Production Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./civicpulse-admin
+          file: ./civicpulse-admin/Dockerfile
+          push: false
+          tags: civicpulse-admin:${{ github.sha }}
+
+      - name: Security & Release Verification Summary
+        run: |
+          echo "=========================================================="
+          echo "CivicPulse Release Images staged successfully for commit: ${{ github.sha }}"
+          echo "All backend, admin, and mobile quality gates PASSED."
+          echo "Public deployment requires manual operator execution."
+          echo "=========================================================="
