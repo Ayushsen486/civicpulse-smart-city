@@ -12,12 +12,7 @@ import '../../issue/application/issue_controller.dart';
 import '../../issue/data/issue_repository.dart';
 import '../../issue/domain/issue_model.dart';
 
-enum MapLayerType {
-  googleRoads,
-  googleSatellite,
-  googleTerrain,
-  openStreetMap,
-}
+enum MapLayerType { googleRoads, googleSatellite, googleTerrain, openStreetMap }
 
 /// Full-screen Interactive Geospatial Complaints Command Map for Flutter
 /// Matches the CivicPulse Admin Portal map with authentic Google raster tiles,
@@ -25,13 +20,11 @@ enum MapLayerType {
 class ComplaintsMapScreen extends ConsumerStatefulWidget {
   final String? initialIssueId;
 
-  const ComplaintsMapScreen({
-    super.key,
-    this.initialIssueId,
-  });
+  const ComplaintsMapScreen({super.key, this.initialIssueId});
 
   @override
-  ConsumerState<ComplaintsMapScreen> createState() => _ComplaintsMapScreenState();
+  ConsumerState<ComplaintsMapScreen> createState() =>
+      _ComplaintsMapScreenState();
 }
 
 class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
@@ -132,17 +125,16 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
       begin: camera.center.longitude,
       end: destLocation.longitude,
     );
-    final zoomTween = Tween<double>(
-      begin: camera.zoom,
-      end: destZoom,
-    );
+    final zoomTween = Tween<double>(begin: camera.zoom, end: destZoom);
 
     final controller = AnimationController(
       duration: const Duration(milliseconds: 700),
       vsync: this,
     );
-    final animation =
-        CurvedAnimation(parent: controller, curve: Curves.easeInOutCubic);
+    final animation = CurvedAnimation(
+      parent: controller,
+      curve: Curves.easeInOutCubic,
+    );
 
     controller.addListener(() {
       _mapController.move(
@@ -203,23 +195,34 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
 
   IconData _getCategoryIcon(String category) {
     final lower = category.toLowerCase();
-    if (lower.contains('road') || lower.contains('pothole')) return Icons.add_road;
-    if (lower.contains('light') || lower.contains('lamp') || lower.contains('pole')) {
+    if (lower.contains('road') || lower.contains('pothole')) {
+      return Icons.add_road;
+    }
+    if (lower.contains('light') ||
+        lower.contains('lamp') ||
+        lower.contains('pole')) {
       return Icons.lightbulb_outline;
     }
-    if (lower.contains('water') || lower.contains('pipe') || lower.contains('drain')) {
+    if (lower.contains('water') ||
+        lower.contains('pipe') ||
+        lower.contains('drain')) {
       return Icons.water_drop_outlined;
     }
-    if (lower.contains('waste') || lower.contains('garbage') || lower.contains('trash')) {
+    if (lower.contains('waste') ||
+        lower.contains('garbage') ||
+        lower.contains('trash')) {
       return Icons.delete_outline;
     }
-    if (lower.contains('traffic') || lower.contains('signal')) return Icons.traffic;
+    if (lower.contains('traffic') || lower.contains('signal')) {
+      return Icons.traffic;
+    }
     return Icons.report_problem_outlined;
   }
 
   void _openDirections(double lat, double lng) async {
-    final googleMapsUrl =
-        Uri.parse('https://www.google.com/maps/dir/?api=1&destination=$lat,$lng');
+    final googleMapsUrl = Uri.parse(
+      'https://www.google.com/maps/dir/?api=1&destination=$lat,$lng',
+    );
     if (await canLaunchUrl(googleMapsUrl)) {
       await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication);
     } else {
@@ -233,10 +236,12 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
 
   void _showAreaPulseSummary(List<IssueModel> allIssues) {
     final total = allIssues.length;
-    final inProgress =
-        allIssues.where((i) => i.status == 'IN_PROGRESS' || i.status == 'ASSIGNED').length;
-    final resolved =
-        allIssues.where((i) => i.status == 'RESOLVED' || i.status == 'CLOSED').length;
+    final inProgress = allIssues
+        .where((i) => i.status == 'IN_PROGRESS' || i.status == 'ASSIGNED')
+        .length;
+    final resolved = allIssues
+        .where((i) => i.status == 'RESOLVED' || i.status == 'CLOSED')
+        .length;
     final critical = allIssues.where((i) => i.priority == 'CRITICAL').length;
     final resolutionRate = total > 0 ? ((resolved / total) * 100).round() : 100;
 
@@ -271,7 +276,11 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                       color: AppColors.primary.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Icon(Icons.analytics_outlined, color: AppColors.primary, size: 24),
+                    child: const Icon(
+                      Icons.analytics_outlined,
+                      color: AppColors.primary,
+                      size: 24,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   const Column(
@@ -279,11 +288,17 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                     children: [
                       Text(
                         'Neighborhood Area Intelligence',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         'Real-time municipal health & dispatch overview',
-                        style: TextStyle(fontSize: 12, color: AppColors.textSecondaryLight),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textSecondaryLight,
+                        ),
                       ),
                     ],
                   ),
@@ -327,12 +342,17 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                   decoration: BoxDecoration(
                     color: AppColors.priorityCritical.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.priorityCritical.withValues(alpha: 0.3)),
+                    border: Border.all(
+                      color: AppColors.priorityCritical.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.warning_amber_rounded,
-                          color: AppColors.priorityCritical, size: 22),
+                      const Icon(
+                        Icons.warning_amber_rounded,
+                        color: AppColors.priorityCritical,
+                        size: 22,
+                      ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -387,19 +407,28 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                   children: [
                     const Text(
                       'Select Map Tile Layer',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Text('Google Tiles',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.w600)),
+                      child: const Text(
+                        'Google Tiles',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -408,7 +437,9 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
               ListTile(
                 leading: const Icon(Icons.map, color: Colors.blue),
                 title: const Text('Google Roadmap (Default)'),
-                subtitle: const Text('Crisp vector-rendered roads, landmarks and buildings'),
+                subtitle: const Text(
+                  'Crisp vector-rendered roads, landmarks and buildings',
+                ),
                 trailing: _currentLayer == MapLayerType.googleRoads
                     ? const Icon(Icons.check_circle, color: AppColors.primary)
                     : null,
@@ -420,7 +451,9 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
               ListTile(
                 leading: const Icon(Icons.satellite_alt, color: Colors.teal),
                 title: const Text('Google Satellite (Hybrid)'),
-                subtitle: const Text('High-resolution aerial satellite imagery with street labels'),
+                subtitle: const Text(
+                  'High-resolution aerial satellite imagery with street labels',
+                ),
                 trailing: _currentLayer == MapLayerType.googleSatellite
                     ? const Icon(Icons.check_circle, color: AppColors.primary)
                     : null,
@@ -432,7 +465,9 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
               ListTile(
                 leading: const Icon(Icons.terrain, color: Colors.green),
                 title: const Text('Google Terrain & Topo'),
-                subtitle: const Text('Topographical elevation, elevation shading, and trails'),
+                subtitle: const Text(
+                  'Topographical elevation, elevation shading, and trails',
+                ),
                 trailing: _currentLayer == MapLayerType.googleTerrain
                     ? const Icon(Icons.check_circle, color: AppColors.primary)
                     : null,
@@ -488,14 +523,25 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.cloud_off, size: 54, color: AppColors.priorityHigh),
+                const Icon(
+                  Icons.cloud_off,
+                  size: 54,
+                  color: AppColors.priorityHigh,
+                ),
                 const SizedBox(height: 16),
-                const Text('Failed to load complaints map',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                const Text(
+                  'Failed to load complaints map',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
                 const SizedBox(height: 8),
-                Text(err.toString(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 13, color: AppColors.textSecondaryLight)),
+                Text(
+                  err.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondaryLight,
+                  ),
+                ),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () => ref.invalidate(issueListProvider),
@@ -510,8 +556,10 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
           // If first time and issues available, center on initial issue or first item
           if (!_hasUserLocation && allIssues.isNotEmpty) {
             final target = widget.initialIssueId != null
-                ? allIssues.firstWhere((i) => i.id == widget.initialIssueId,
-                    orElse: () => allIssues.first)
+                ? allIssues.firstWhere(
+                    (i) => i.id == widget.initialIssueId,
+                    orElse: () => allIssues.first,
+                  )
                 : allIssues.first;
             _userLat = target.latitude;
             _userLng = target.longitude;
@@ -520,11 +568,15 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
           // 1. Filter by Status
           var filtered = _selectedStatus == 'ALL'
               ? allIssues
-              : allIssues.where((i) => i.status.toUpperCase() == _selectedStatus).toList();
+              : allIssues
+                    .where((i) => i.status.toUpperCase() == _selectedStatus)
+                    .toList();
 
           // 2. Filter by Category
           if (_selectedCategory != 'ALL') {
-            filtered = filtered.where((i) => i.categoryName == _selectedCategory).toList();
+            filtered = filtered
+                .where((i) => i.categoryName == _selectedCategory)
+                .toList();
           }
 
           // 3. Filter by Radius Radar
@@ -544,9 +596,14 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
           if (_searchQuery.isNotEmpty) {
             filtered = filtered.where((i) {
               final tMatch = i.title.toLowerCase().contains(_searchQuery);
-              final dMatch = i.description?.toLowerCase().contains(_searchQuery) ?? false;
-              final rMatch = i.issueReference?.toLowerCase().contains(_searchQuery) ?? false;
-              final aMatch = (i.address ?? '').toLowerCase().contains(_searchQuery);
+              final dMatch =
+                  i.description?.toLowerCase().contains(_searchQuery) ?? false;
+              final rMatch =
+                  i.issueReference?.toLowerCase().contains(_searchQuery) ??
+                  false;
+              final aMatch = (i.address ?? '').toLowerCase().contains(
+                _searchQuery,
+              );
               return tMatch || dMatch || rMatch || aMatch;
             }).toList();
           }
@@ -572,7 +629,9 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                           height: 28 + (_pulseAnimation.value * 16),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.blue.withValues(alpha: 0.25 - (_pulseAnimation.value * 0.15)),
+                            color: Colors.blue.withValues(
+                              alpha: 0.25 - (_pulseAnimation.value * 0.15),
+                            ),
                           ),
                         ),
                         Container(
@@ -613,7 +672,10 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                 child: GestureDetector(
                   onTap: () {
                     setState(() => _selectedIssue = issue);
-                    _animatedMapMove(LatLng(issue.latitude, issue.longitude), 16.0);
+                    _animatedMapMove(
+                      LatLng(issue.latitude, issue.longitude),
+                      16.0,
+                    );
                   },
                   child: Stack(
                     alignment: Alignment.center,
@@ -625,8 +687,11 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                           height: isSelected ? 52 : 44,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: (isSelected ? AppColors.primary : AppColors.priorityCritical)
-                                .withValues(alpha: 0.35),
+                            color:
+                                (isSelected
+                                        ? AppColors.primary
+                                        : AppColors.priorityCritical)
+                                    .withValues(alpha: 0.35),
                           ),
                         ),
                       // Main stage circle pin
@@ -667,7 +732,10 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                             decoration: BoxDecoration(
                               color: AppColors.priorityCritical,
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 1.5),
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 1.5,
+                              ),
                             ),
                           ),
                         ),
@@ -707,8 +775,12 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                       circles: [
                         CircleMarker(
                           point: LatLng(_userLat, _userLng),
-                          color: const Color(0xFF2563EB).withValues(alpha: 0.08),
-                          borderColor: const Color(0xFF2563EB).withValues(alpha: 0.45),
+                          color: const Color(
+                            0xFF2563EB,
+                          ).withValues(alpha: 0.08),
+                          borderColor: const Color(
+                            0xFF2563EB,
+                          ).withValues(alpha: 0.45),
                           borderStrokeWidth: 1.5,
                           useRadiusInMeter: true,
                           radius: (_radiusFilterKm ?? 1.0) * 1000,
@@ -722,7 +794,10 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
               // 2. Top Controls & Intelligence Header
               SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -733,16 +808,24 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 4,
+                          ),
                           child: Row(
                             children: [
-                              const Icon(Icons.search, color: AppColors.primary, size: 22),
+                              const Icon(
+                                Icons.search,
+                                color: AppColors.primary,
+                                size: 22,
+                              ),
                               const SizedBox(width: 10),
                               Expanded(
                                 child: TextField(
                                   controller: _searchController,
                                   decoration: InputDecoration(
-                                    hintText: 'Search complaints by area or title...',
+                                    hintText:
+                                        'Search complaints by area or title...',
                                     hintStyle: TextStyle(
                                       fontSize: 14,
                                       color: isDark
@@ -752,8 +835,9 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                                     border: InputBorder.none,
                                     isDense: true,
                                   ),
-                                  onChanged: (q) =>
-                                      setState(() => _searchQuery = q.trim().toLowerCase()),
+                                  onChanged: (q) => setState(
+                                    () => _searchQuery = q.trim().toLowerCase(),
+                                  ),
                                 ),
                               ),
                               if (_searchQuery.isNotEmpty)
@@ -766,9 +850,14 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                                 ),
                               // Total filtered badge
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 9,
+                                  vertical: 4,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withValues(alpha: 0.12),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.12,
+                                  ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
@@ -790,10 +879,14 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                       GestureDetector(
                         onTap: () => _showAreaPulseSummary(allIssues),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 7,
+                          ),
                           decoration: BoxDecoration(
-                            color: (isDark ? Colors.grey.shade900 : Colors.white)
-                                .withValues(alpha: 0.94),
+                            color:
+                                (isDark ? Colors.grey.shade900 : Colors.white)
+                                    .withValues(alpha: 0.94),
                             borderRadius: BorderRadius.circular(30),
                             boxShadow: [
                               BoxShadow(
@@ -817,7 +910,10 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                               const SizedBox(width: 8),
                               Text(
                                 'Area Pulse: ${allIssues.length} total • ${_radiusFilterKm != null ? "${_radiusFilterKm!.toStringAsFixed(0)}km radius" : "Citywide"}',
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                               const SizedBox(width: 6),
                               const Icon(Icons.keyboard_arrow_down, size: 16),
@@ -837,13 +933,16 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                               _FilterChipPill(
                                 label: 'All Categories',
                                 isSelected: _selectedCategory == 'ALL',
-                                onTap: () => setState(() => _selectedCategory = 'ALL'),
+                                onTap: () =>
+                                    setState(() => _selectedCategory = 'ALL'),
                               ),
                               ...categories.map(
                                 (c) => _FilterChipPill(
                                   label: c.name,
                                   isSelected: _selectedCategory == c.name,
-                                  onTap: () => setState(() => _selectedCategory = c.name),
+                                  onTap: () => setState(
+                                    () => _selectedCategory = c.name,
+                                  ),
                                 ),
                               ),
                             ],
@@ -863,25 +962,30 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                               label: 'All Statuses',
                               isSelected: _selectedStatus == 'ALL',
                               color: AppColors.primary,
-                              onTap: () => setState(() => _selectedStatus = 'ALL'),
+                              onTap: () =>
+                                  setState(() => _selectedStatus = 'ALL'),
                             ),
                             _StatusFilterPill(
                               label: 'Reported',
                               isSelected: _selectedStatus == 'SUBMITTED',
                               color: const Color(0xFF2563EB),
-                              onTap: () => setState(() => _selectedStatus = 'SUBMITTED'),
+                              onTap: () =>
+                                  setState(() => _selectedStatus = 'SUBMITTED'),
                             ),
                             _StatusFilterPill(
                               label: 'In Progress',
                               isSelected: _selectedStatus == 'IN_PROGRESS',
                               color: const Color(0xFFD97706),
-                              onTap: () => setState(() => _selectedStatus = 'IN_PROGRESS'),
+                              onTap: () => setState(
+                                () => _selectedStatus = 'IN_PROGRESS',
+                              ),
                             ),
                             _StatusFilterPill(
                               label: 'Resolved',
                               isSelected: _selectedStatus == 'RESOLVED',
                               color: const Color(0xFF059669),
-                              onTap: () => setState(() => _selectedStatus = 'RESOLVED'),
+                              onTap: () =>
+                                  setState(() => _selectedStatus = 'RESOLVED'),
                             ),
                           ],
                         ),
@@ -901,7 +1005,9 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                     // Layer Switcher FAB
                     FloatingActionButton.small(
                       heroTag: 'map_layer',
-                      backgroundColor: isDark ? Colors.grey.shade800 : Colors.white,
+                      backgroundColor: isDark
+                          ? Colors.grey.shade800
+                          : Colors.white,
                       foregroundColor: AppColors.primary,
                       elevation: 4,
                       tooltip: 'Change map layer (Satellite / Terrain / Road)',
@@ -916,7 +1022,9 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                       backgroundColor: _radiusFilterKm != null
                           ? AppColors.primary
                           : (isDark ? Colors.grey.shade800 : Colors.white),
-                      foregroundColor: _radiusFilterKm != null ? Colors.white : AppColors.primary,
+                      foregroundColor: _radiusFilterKm != null
+                          ? Colors.white
+                          : AppColors.primary,
                       elevation: 4,
                       tooltip: 'Toggle nearby radius (1km / 3km / 5km / All)',
                       onPressed: () {
@@ -949,8 +1057,12 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                     // Locate Me GPS FAB
                     FloatingActionButton.small(
                       heroTag: 'map_locate',
-                      backgroundColor: isDark ? Colors.grey.shade800 : Colors.white,
-                      foregroundColor: _isLocating ? Colors.orange : const Color(0xFF2563EB),
+                      backgroundColor: isDark
+                          ? Colors.grey.shade800
+                          : Colors.white,
+                      foregroundColor: _isLocating
+                          ? Colors.orange
+                          : const Color(0xFF2563EB),
                       elevation: 4,
                       tooltip: 'Recenter to my current GPS location',
                       onPressed: () => _getCurrentLocation(animated: true),
@@ -967,7 +1079,9 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                     // Zoom In
                     FloatingActionButton.small(
                       heroTag: 'map_zoom_in',
-                      backgroundColor: isDark ? Colors.grey.shade800 : Colors.white,
+                      backgroundColor: isDark
+                          ? Colors.grey.shade800
+                          : Colors.white,
                       foregroundColor: Colors.grey.shade800,
                       elevation: 3,
                       onPressed: () {
@@ -983,7 +1097,9 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                     // Zoom Out
                     FloatingActionButton.small(
                       heroTag: 'map_zoom_out',
-                      backgroundColor: isDark ? Colors.grey.shade800 : Colors.white,
+                      backgroundColor: isDark
+                          ? Colors.grey.shade800
+                          : Colors.white,
                       foregroundColor: Colors.grey.shade800,
                       elevation: 3,
                       onPressed: () {
@@ -1027,7 +1143,8 @@ class _ComplaintsMapScreenState extends ConsumerState<ComplaintsMapScreen>
                         );
                       });
                     },
-                    onViewFull: () => context.push('/issues/${_selectedIssue!.id}'),
+                    onViewFull: () =>
+                        context.push('/issues/${_selectedIssue!.id}'),
                   ),
                 ),
             ],
@@ -1059,7 +1176,9 @@ class _FilterChipPill extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.primary : Colors.white.withValues(alpha: 0.95),
+            color: isSelected
+                ? AppColors.primary
+                : Colors.white.withValues(alpha: 0.95),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
@@ -1166,13 +1285,20 @@ class _PulseStatBox extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             value,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color),
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
           ),
           const SizedBox(height: 2),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 11, color: AppColors.textSecondaryLight),
+            style: const TextStyle(
+              fontSize: 11,
+              color: AppColors.textSecondaryLight,
+            ),
           ),
         ],
       ),
@@ -1242,7 +1368,10 @@ class _ComplaintDetailSheetCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primary.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
@@ -1258,7 +1387,10 @@ class _ComplaintDetailSheetCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
                     color: priorityColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
@@ -1303,7 +1435,11 @@ class _ComplaintDetailSheetCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          const Icon(Icons.place, size: 14, color: AppColors.primary),
+                          const Icon(
+                            Icons.place,
+                            size: 14,
+                            color: AppColors.primary,
+                          ),
                           const SizedBox(width: 4),
                           Expanded(
                             child: Text(
@@ -1335,7 +1471,11 @@ class _ComplaintDetailSheetCard extends StatelessWidget {
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => Container(
                           color: Colors.grey.shade200,
-                          child: const Icon(Icons.broken_image, size: 20, color: Colors.grey),
+                          child: const Icon(
+                            Icons.broken_image,
+                            size: 20,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ),
@@ -1357,9 +1497,14 @@ class _ComplaintDetailSheetCard extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: issue.hasUpvoted ? Colors.red : null,
                     side: BorderSide(
-                      color: issue.hasUpvoted ? Colors.red : Colors.grey.shade400,
+                      color: issue.hasUpvoted
+                          ? Colors.red
+                          : Colors.grey.shade400,
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                   ),
                   onPressed: onUpvoteToggled,
                   icon: Icon(
@@ -1374,7 +1519,10 @@ class _ComplaintDetailSheetCard extends StatelessWidget {
                 // Directions Button
                 OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                   ),
                   onPressed: onDirections,
                   icon: const Icon(Icons.directions_outlined, size: 16),
@@ -1385,7 +1533,10 @@ class _ComplaintDetailSheetCard extends StatelessWidget {
                 // View Details Button
                 ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 8,
+                    ),
                   ),
                   onPressed: onViewFull,
                   icon: const Icon(Icons.arrow_forward, size: 16),
@@ -1437,7 +1588,9 @@ class _StageStepper extends StatelessWidget {
           return Expanded(
             child: Container(
               height: 2.5,
-              color: isCompleted ? const Color(0xFF059669) : Colors.grey.shade300,
+              color: isCompleted
+                  ? const Color(0xFF059669)
+                  : Colors.grey.shade300,
             ),
           );
         } else {
@@ -1454,10 +1607,14 @@ class _StageStepper extends StatelessWidget {
                 height: 18,
                 decoration: BoxDecoration(
                   color: isCompleted
-                      ? (isCurrent ? AppColors.primary : const Color(0xFF059669))
+                      ? (isCurrent
+                            ? AppColors.primary
+                            : const Color(0xFF059669))
                       : Colors.grey.shade300,
                   shape: BoxShape.circle,
-                  border: isCurrent ? Border.all(color: Colors.white, width: 2) : null,
+                  border: isCurrent
+                      ? Border.all(color: Colors.white, width: 2)
+                      : null,
                 ),
                 child: isCompleted && !isCurrent
                     ? const Icon(Icons.check, size: 12, color: Colors.white)
@@ -1472,8 +1629,8 @@ class _StageStepper extends StatelessWidget {
                   color: isCurrent
                       ? AppColors.primary
                       : isCompleted
-                          ? const Color(0xFF059669)
-                          : Colors.grey.shade500,
+                      ? const Color(0xFF059669)
+                      : Colors.grey.shade500,
                 ),
               ),
             ],

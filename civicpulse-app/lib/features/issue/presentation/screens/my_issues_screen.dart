@@ -26,7 +26,12 @@ class _MyIssuesScreenState extends ConsumerState<MyIssuesScreen> {
 
     if (user == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('My Reports', style: TextStyle(fontWeight: FontWeight.bold))),
+        appBar: AppBar(
+          title: const Text(
+            'My Reports',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -39,15 +44,27 @@ class _MyIssuesScreenState extends ConsumerState<MyIssuesScreen> {
                     color: AppColors.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.assignment_ind_outlined, size: 56, color: AppColors.primary),
+                  child: const Icon(
+                    Icons.assignment_ind_outlined,
+                    size: 56,
+                    color: AppColors.primary,
+                  ),
                 ),
                 const SizedBox(height: 16),
-                Text('Track Your Reports', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+                Text(
+                  'Track Your Reports',
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 const SizedBox(height: 8),
                 const Text(
                   'Sign in to monitor status updates, officer assignments, and resolution progress on your submitted complaints.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColors.textSecondaryLight, fontSize: 13),
+                  style: TextStyle(
+                    color: AppColors.textSecondaryLight,
+                    fontSize: 13,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
@@ -62,7 +79,8 @@ class _MyIssuesScreenState extends ConsumerState<MyIssuesScreen> {
       );
     }
 
-    final isOfficer = user.role.contains('OFFICER') || user.role.contains('ADMIN');
+    final isOfficer =
+        user.role.contains('OFFICER') || user.role.contains('ADMIN');
     final myIssuesAsync = (isOfficer && _officerViewMode == 'ASSIGNED')
         ? ref.watch(officerAssignedIssuesProvider(user.id))
         : ref.watch(myIssuesProvider(user.id));
@@ -70,7 +88,9 @@ class _MyIssuesScreenState extends ConsumerState<MyIssuesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          isOfficer && _officerViewMode == 'ASSIGNED' ? 'Assigned Complaints' : 'My Reports',
+          isOfficer && _officerViewMode == 'ASSIGNED'
+              ? 'Assigned Complaints'
+              : 'My Reports',
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
@@ -131,14 +151,23 @@ class _MyIssuesScreenState extends ConsumerState<MyIssuesScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Icon(Icons.error_outline, size: 48, color: AppColors.priorityCritical),
+                        const Icon(
+                          Icons.error_outline,
+                          size: 48,
+                          color: AppColors.priorityCritical,
+                        ),
                         const SizedBox(height: 12),
-                        Text('Error loading reports: $err', textAlign: TextAlign.center),
+                        Text(
+                          'Error loading reports: $err',
+                          textAlign: TextAlign.center,
+                        ),
                         const SizedBox(height: 12),
                         ElevatedButton(
                           onPressed: () {
                             if (isOfficer && _officerViewMode == 'ASSIGNED') {
-                              ref.invalidate(officerAssignedIssuesProvider(user.id));
+                              ref.invalidate(
+                                officerAssignedIssuesProvider(user.id),
+                              );
                             } else {
                               ref.invalidate(myIssuesProvider(user.id));
                             }
@@ -153,9 +182,17 @@ class _MyIssuesScreenState extends ConsumerState<MyIssuesScreen> {
                   // Filter according to selected tab
                   var filtered = issues;
                   if (_selectedTab == 'ACTIVE') {
-                    filtered = issues.where((i) => i.status != 'RESOLVED' && i.status != 'CLOSED').toList();
+                    filtered = issues
+                        .where(
+                          (i) => i.status != 'RESOLVED' && i.status != 'CLOSED',
+                        )
+                        .toList();
                   } else if (_selectedTab == 'RESOLVED') {
-                    filtered = issues.where((i) => i.status == 'RESOLVED' || i.status == 'CLOSED').toList();
+                    filtered = issues
+                        .where(
+                          (i) => i.status == 'RESOLVED' || i.status == 'CLOSED',
+                        )
+                        .toList();
                   }
 
                   if (filtered.isEmpty) {
@@ -169,26 +206,37 @@ class _MyIssuesScreenState extends ConsumerState<MyIssuesScreen> {
                             Container(
                               padding: const EdgeInsets.all(20),
                               decoration: BoxDecoration(
-                                color: isDark ? AppColors.surfaceDark : Colors.grey.shade100,
+                                color: isDark
+                                    ? AppColors.surfaceDark
+                                    : Colors.grey.shade100,
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.assignment_outlined, size: 54, color: AppColors.textSecondaryLight),
+                              child: const Icon(
+                                Icons.assignment_outlined,
+                                size: 54,
+                                color: AppColors.textSecondaryLight,
+                              ),
                             ),
                             const SizedBox(height: 16),
                             Text(
                               _selectedTab == 'ACTIVE'
                                   ? 'No active issues in progress'
                                   : _selectedTab == 'RESOLVED'
-                                      ? 'No resolved issues yet'
-                                      : 'You have not reported any issues yet',
-                              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                                  ? 'No resolved issues yet'
+                                  : 'You have not reported any issues yet',
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 6),
                             const Text(
                               'When you report a municipal problem, track its resolution journey right here.',
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: AppColors.textSecondaryLight, fontSize: 13),
+                              style: TextStyle(
+                                color: AppColors.textSecondaryLight,
+                                fontSize: 13,
+                              ),
                             ),
                             const SizedBox(height: 20),
                             ElevatedButton.icon(
@@ -205,7 +253,8 @@ class _MyIssuesScreenState extends ConsumerState<MyIssuesScreen> {
                   return ListView.separated(
                     padding: const EdgeInsets.all(16),
                     itemCount: filtered.length,
-                    separatorBuilder: (context, index) => const SizedBox(height: 12),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 12),
                     itemBuilder: (context, index) {
                       final issue = filtered[index];
                       return _MyIssueCard(
@@ -239,10 +288,7 @@ class _MyIssueCard extends StatelessWidget {
   final IssueModel issue;
   final VoidCallback onTap;
 
-  const _MyIssueCard({
-    required this.issue,
-    required this.onTap,
-  });
+  const _MyIssueCard({required this.issue, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -261,57 +307,92 @@ class _MyIssueCard extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: statusColor.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
                       issue.status.replaceAll('_', ' '),
-                      style: TextStyle(color: statusColor, fontWeight: FontWeight.bold, fontSize: 11),
+                      style: TextStyle(
+                        color: statusColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 11,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: priorityColor.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
                       issue.priority,
-                      style: TextStyle(color: priorityColor, fontWeight: FontWeight.w600, fontSize: 11),
+                      style: TextStyle(
+                        color: priorityColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 11,
+                      ),
                     ),
                   ),
                   const Spacer(),
                   if (issue.issueReference != null)
                     Text(
                       issue.issueReference!,
-                      style: const TextStyle(color: AppColors.textSecondaryLight, fontSize: 11, fontWeight: FontWeight.w600),
+                      style: const TextStyle(
+                        color: AppColors.textSecondaryLight,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                 ],
               ),
               const SizedBox(height: 10),
               Text(
                 issue.title,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 6),
               Row(
                 children: [
-                  const Icon(Icons.category_outlined, size: 14, color: AppColors.textSecondaryLight),
+                  const Icon(
+                    Icons.category_outlined,
+                    size: 14,
+                    color: AppColors.textSecondaryLight,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     issue.categoryName,
-                    style: const TextStyle(fontSize: 12, color: AppColors.textSecondaryLight),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondaryLight,
+                    ),
                   ),
                   const Spacer(),
                   Text(
                     '${issue.createdAt.day}/${issue.createdAt.month}/${issue.createdAt.year}',
-                    style: const TextStyle(fontSize: 11, color: AppColors.textSecondaryLight),
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.textSecondaryLight,
+                    ),
                   ),
                   const SizedBox(width: 6),
-                  const Icon(Icons.chevron_right, size: 18, color: AppColors.textSecondaryLight),
+                  const Icon(
+                    Icons.chevron_right,
+                    size: 18,
+                    color: AppColors.textSecondaryLight,
+                  ),
                 ],
               ),
             ],

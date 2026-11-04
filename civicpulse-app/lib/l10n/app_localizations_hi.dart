@@ -212,4 +212,247 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get statusUpdatedSuccess => 'समस्या की स्थिति सफलतापूर्वक अपडेट की गई';
+
+  @override
+  String get citizenProfile => 'नागरिक प्रोफ़ाइल';
+
+  @override
+  String get officerProfile => 'अधिकारी प्रोफ़ाइल';
+
+  @override
+  String get verified => 'सत्यापित';
+
+  @override
+  String get editProfile => 'प्रोफ़ाइल संपादित करें';
+
+  @override
+  String get editProfileSubtitle => 'अपना नाम, फ़ोन और फ़ोटो अपडेट करें';
+
+  @override
+  String get myActivity => 'मेरी गतिविधि';
+
+  @override
+  String get totalComplaints => 'कुल';
+
+  @override
+  String get pending => 'लंबित';
+
+  @override
+  String get inProgress => 'प्रगति पर';
+
+  @override
+  String get resolved => 'समाधान';
+
+  @override
+  String get rejected => 'अस्वीकृत';
+
+  @override
+  String get myComplaintsShortcut => 'मेरी शिकायतें';
+
+  @override
+  String get myComplaintsSubtitle => 'अपनी दर्ज शिकायतें देखें और फ़िल्टर करें';
+
+  @override
+  String get viewAll => 'सभी देखें';
+
+  @override
+  String get filterByStatus => 'स्थिति के अनुसार फ़िल्टर करें';
+
+  @override
+  String get savedAddresses => 'सहेजे गए पते';
+
+  @override
+  String get savedAddressesSubtitle => 'घर और कार्यालय के पते प्रबंधित करें';
+
+  @override
+  String get notificationPreferences => 'सूचना प्राथमिकताएँ';
+
+  @override
+  String get notificationPreferencesSubtitle =>
+      'शिकायत अपडेट अलर्ट प्रबंधित करें';
+
+  @override
+  String get complaintUpdates => 'शिकायत अपडेट';
+
+  @override
+  String get statusChanges => 'स्थिति परिवर्तन';
+
+  @override
+  String get officerResponses => 'अधिकारी प्रतिक्रिया';
+
+  @override
+  String get communityAlerts => 'सामुदायिक सूचनाएँ';
+
+  @override
+  String get languageSettings => 'भाषा';
+
+  @override
+  String get languageSubtitle => 'अपनी पसंदीदा भाषा चुनें';
+
+  @override
+  String get systemDefault => 'सिस्टम डिफ़ॉल्ट';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get hindi => 'हिंदी';
+
+  @override
+  String get languageChanged => 'भाषा सफलतापूर्वक बदली गई';
+
+  @override
+  String get themeMode => 'थीम मोड';
+
+  @override
+  String get themeAuto => 'ऑटो (सिस्टम डिफ़ॉल्ट)';
+
+  @override
+  String get themeAutoSubtitle => 'डिवाइस सिस्टम लाइट / डार्क सेटिंग के अनुसार';
+
+  @override
+  String get themeLight => 'लाइट मोड';
+
+  @override
+  String get themeLightSubtitle => 'साफ़ सफ़ेद बैकग्राउंड';
+
+  @override
+  String get themeDark => 'डार्क मोड';
+
+  @override
+  String get themeDarkSubtitle => 'कम रोशनी में आरामदायक आधुनिक डार्क थीम';
+
+  @override
+  String get selectThemeMode => 'थीम मोड चुनें';
+
+  @override
+  String get autoSync => 'ऑटो-सिंक';
+
+  @override
+  String get privacyAndSecurity => 'गोपनीयता और सुरक्षा';
+
+  @override
+  String get privacySubtitle => 'अपने खाते की सुरक्षा प्रबंधित करें';
+
+  @override
+  String get changePassword => 'पासवर्ड बदलें';
+
+  @override
+  String get changePasswordSubtitle => 'अपने खाते का पासवर्ड अपडेट करें';
+
+  @override
+  String get twoFactorAuth => 'दो-कारक प्रमाणीकरण';
+
+  @override
+  String get dataPrivacy => 'डेटा और गोपनीयता';
+
+  @override
+  String get helpAndSupport => 'सहायता और समर्थन';
+
+  @override
+  String get helpSubtitle => 'मदद लें और समस्या रिपोर्ट करें';
+
+  @override
+  String get faqs => 'अक्सर पूछे जाने वाले प्रश्न';
+
+  @override
+  String get contactSupport => 'सहायता से संपर्क करें';
+
+  @override
+  String get reportAppProblem => 'ऐप समस्या रिपोर्ट करें';
+
+  @override
+  String get aboutCivicPulse => 'सिविकपल्स के बारे में';
+
+  @override
+  String get appVersion => 'ऐप संस्करण';
+
+  @override
+  String get termsOfService => 'सेवा की शर्तें';
+
+  @override
+  String get privacyPolicy => 'गोपनीयता नीति';
+
+  @override
+  String get acknowledgements => 'आभार';
+
+  @override
+  String get openSourceLicenses => 'ओपन सोर्स लाइसेंस';
+
+  @override
+  String get signOut => 'साइन आउट';
+
+  @override
+  String get signOutConfirmTitle => 'साइन आउट';
+
+  @override
+  String get signOutConfirmMessage =>
+      'क्या आप CivicPulse से साइन आउट करना चाहते हैं?';
+
+  @override
+  String get cancel => 'रद्द करें';
+
+  @override
+  String get deleteAccount => 'खाता हटाएँ';
+
+  @override
+  String get deleteAccountSubtitle => 'अपना खाता और डेटा स्थायी रूप से हटाएँ';
+
+  @override
+  String get deleteAccountConfirmTitle => 'खाता हटाएँ?';
+
+  @override
+  String get deleteAccountConfirmMessage =>
+      'यह कार्रवाई अपरिवर्तनीय है। आपकी सभी शिकायतें, वोट और प्रोफ़ाइल जानकारी स्थायी रूप से हटा दी जाएगी।';
+
+  @override
+  String get deleteAccountRequiresBackend =>
+      'खाता हटाने के लिए सर्वर समर्थन आवश्यक है। कृपया support@civicpulse.city से संपर्क करें।';
+
+  @override
+  String get delete => 'हटाएँ';
+
+  @override
+  String get welcomeToCivicPulse => 'CivicPulse में आपका स्वागत है';
+
+  @override
+  String get signInPrompt =>
+      'समस्याएं दर्ज करने, समाधान ट्रैक करने और नागरिक निर्णयों में भाग लेने के लिए साइन इन करें।';
+
+  @override
+  String get signInOrRegister => 'साइन इन या पंजीकरण करें';
+
+  @override
+  String get featureComingSoon => 'जल्द आ रहा है';
+
+  @override
+  String get featureComingSoonMessage =>
+      'यह सुविधा विकास में है और भविष्य के अपडेट में उपलब्ध होगी।';
+
+  @override
+  String get backendRequired => 'सर्वर समर्थन आवश्यक';
+
+  @override
+  String get explore => 'एक्सप्लोर';
+
+  @override
+  String get liveMap => 'लाइव मैप';
+
+  @override
+  String get myReports => 'मेरी रिपोर्ट';
+
+  @override
+  String get settings => 'सेटिंग्स';
+
+  @override
+  String get appearance => 'दिखावट';
+
+  @override
+  String get account => 'खाता';
+
+  @override
+  String get support => 'सहायता';
+
+  @override
+  String get general => 'सामान्य';
 }

@@ -505,6 +505,480 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Issue status updated successfully'**
   String get statusUpdatedSuccess;
+
+  /// No description provided for @citizenProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Citizen Profile'**
+  String get citizenProfile;
+
+  /// No description provided for @officerProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Officer Profile'**
+  String get officerProfile;
+
+  /// No description provided for @verified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verified;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @editProfileSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your name, phone, and photo'**
+  String get editProfileSubtitle;
+
+  /// No description provided for @myActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'My Activity'**
+  String get myActivity;
+
+  /// No description provided for @totalComplaints.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get totalComplaints;
+
+  /// No description provided for @pending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// No description provided for @inProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get inProgress;
+
+  /// No description provided for @resolved.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get resolved;
+
+  /// No description provided for @rejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get rejected;
+
+  /// No description provided for @myComplaintsShortcut.
+  ///
+  /// In en, this message translates to:
+  /// **'My Complaints'**
+  String get myComplaintsShortcut;
+
+  /// No description provided for @myComplaintsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'View and filter your submitted reports'**
+  String get myComplaintsSubtitle;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// No description provided for @filterByStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by Status'**
+  String get filterByStatus;
+
+  /// No description provided for @savedAddresses.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved Addresses'**
+  String get savedAddresses;
+
+  /// No description provided for @savedAddressesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage home and work addresses'**
+  String get savedAddressesSubtitle;
+
+  /// No description provided for @notificationPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Preferences'**
+  String get notificationPreferences;
+
+  /// No description provided for @notificationPreferencesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage complaint update alerts'**
+  String get notificationPreferencesSubtitle;
+
+  /// No description provided for @complaintUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Complaint Updates'**
+  String get complaintUpdates;
+
+  /// No description provided for @statusChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Status Changes'**
+  String get statusChanges;
+
+  /// No description provided for @officerResponses.
+  ///
+  /// In en, this message translates to:
+  /// **'Officer Responses'**
+  String get officerResponses;
+
+  /// No description provided for @communityAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Community Alerts'**
+  String get communityAlerts;
+
+  /// No description provided for @languageSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageSettings;
+
+  /// No description provided for @languageSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your preferred language'**
+  String get languageSubtitle;
+
+  /// No description provided for @systemDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'System Default'**
+  String get systemDefault;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @hindi.
+  ///
+  /// In en, this message translates to:
+  /// **'हिंदी'**
+  String get hindi;
+
+  /// No description provided for @languageChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Language changed successfully'**
+  String get languageChanged;
+
+  /// No description provided for @themeMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Mode'**
+  String get themeMode;
+
+  /// No description provided for @themeAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto (System Default)'**
+  String get themeAuto;
+
+  /// No description provided for @themeAutoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches device system light / dark setting'**
+  String get themeAutoSubtitle;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get themeLight;
+
+  /// No description provided for @themeLightSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean white background with refined accent highlights'**
+  String get themeLightSubtitle;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get themeDark;
+
+  /// No description provided for @themeDarkSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Modern dark aesthetics easy on the eyes in low light'**
+  String get themeDarkSubtitle;
+
+  /// No description provided for @selectThemeMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Theme Mode'**
+  String get selectThemeMode;
+
+  /// No description provided for @autoSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-Sync'**
+  String get autoSync;
+
+  /// No description provided for @privacyAndSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Security'**
+  String get privacyAndSecurity;
+
+  /// No description provided for @privacySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your account security'**
+  String get privacySubtitle;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePassword;
+
+  /// No description provided for @changePasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your account password'**
+  String get changePasswordSubtitle;
+
+  /// No description provided for @twoFactorAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-Factor Authentication'**
+  String get twoFactorAuth;
+
+  /// No description provided for @dataPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Data & Privacy'**
+  String get dataPrivacy;
+
+  /// No description provided for @helpAndSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & Support'**
+  String get helpAndSupport;
+
+  /// No description provided for @helpSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get assistance and report problems'**
+  String get helpSubtitle;
+
+  /// No description provided for @faqs.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently Asked Questions'**
+  String get faqs;
+
+  /// No description provided for @contactSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Support'**
+  String get contactSupport;
+
+  /// No description provided for @reportAppProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Report an App Problem'**
+  String get reportAppProblem;
+
+  /// No description provided for @aboutCivicPulse.
+  ///
+  /// In en, this message translates to:
+  /// **'About CivicPulse'**
+  String get aboutCivicPulse;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get appVersion;
+
+  /// No description provided for @termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfService;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @acknowledgements.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledgements'**
+  String get acknowledgements;
+
+  /// No description provided for @openSourceLicenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Source Licenses'**
+  String get openSourceLicenses;
+
+  /// No description provided for @signOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOut;
+
+  /// No description provided for @signOutConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOutConfirmTitle;
+
+  /// No description provided for @signOutConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out of CivicPulse?'**
+  String get signOutConfirmMessage;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccount;
+
+  /// No description provided for @deleteAccountSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently remove your account and data'**
+  String get deleteAccountSubtitle;
+
+  /// No description provided for @deleteAccountConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account?'**
+  String get deleteAccountConfirmTitle;
+
+  /// No description provided for @deleteAccountConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This action is irreversible. All your data including complaints, votes, and profile information will be permanently deleted.'**
+  String get deleteAccountConfirmMessage;
+
+  /// No description provided for @deleteAccountRequiresBackend.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deletion requires server support. Please contact support@civicpulse.city.'**
+  String get deleteAccountRequiresBackend;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @welcomeToCivicPulse.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to CivicPulse'**
+  String get welcomeToCivicPulse;
+
+  /// No description provided for @signInPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to report issues, track resolutions, and participate in civic decisions.'**
+  String get signInPrompt;
+
+  /// No description provided for @signInOrRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In or Register'**
+  String get signInOrRegister;
+
+  /// No description provided for @featureComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming Soon'**
+  String get featureComingSoon;
+
+  /// No description provided for @featureComingSoonMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is under development and will be available in a future update.'**
+  String get featureComingSoonMessage;
+
+  /// No description provided for @backendRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires backend support'**
+  String get backendRequired;
+
+  /// No description provided for @explore.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore'**
+  String get explore;
+
+  /// No description provided for @liveMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Map'**
+  String get liveMap;
+
+  /// No description provided for @myReports.
+  ///
+  /// In en, this message translates to:
+  /// **'My Reports'**
+  String get myReports;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
+
+  /// No description provided for @general.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get general;
 }
 
 class _AppLocalizationsDelegate

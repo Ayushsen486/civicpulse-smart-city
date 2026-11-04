@@ -13,21 +13,20 @@ class GoogleSignInService {
       '1024729300393-461mvfgdra4p5mfq1lfesro7inihqs5a.apps.googleusercontent.com';
 
   GoogleSignInService({GoogleSignIn? googleSignIn})
-      : _googleSignIn = googleSignIn ??
-            GoogleSignIn(
-              clientId: kIsWeb
-                  ? (const String.fromEnvironment('GOOGLE_CLIENT_ID').isNotEmpty
+    : _googleSignIn =
+          googleSignIn ??
+          GoogleSignIn(
+            clientId: kIsWeb
+                ? (const String.fromEnvironment('GOOGLE_CLIENT_ID').isNotEmpty
                       ? const String.fromEnvironment('GOOGLE_CLIENT_ID')
                       : defaultClientId)
-                  : null,
-              serverClientId: const String.fromEnvironment('GOOGLE_CLIENT_ID').isNotEmpty
-                  ? const String.fromEnvironment('GOOGLE_CLIENT_ID')
-                  : defaultClientId,
-              scopes: const [
-                'email',
-                'profile',
-              ],
-            );
+                : null,
+            serverClientId:
+                const String.fromEnvironment('GOOGLE_CLIENT_ID').isNotEmpty
+                ? const String.fromEnvironment('GOOGLE_CLIENT_ID')
+                : defaultClientId,
+            scopes: const ['email', 'profile'],
+          );
 
   /// Initiates interactive Google Sign-In and extracts the cryptographic ID Token.
   /// Returns `null` if the user aborted or cancelled the prompt.

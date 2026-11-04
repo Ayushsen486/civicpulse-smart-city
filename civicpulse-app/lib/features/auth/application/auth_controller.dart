@@ -17,7 +17,9 @@ class AuthController extends AsyncNotifier<UserModel?> {
   Future<void> login(String email, String password) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final user = await ref.read(authRepositoryProvider).login(email: email, password: password);
+      final user = await ref
+          .read(authRepositoryProvider)
+          .login(email: email, password: password);
       await ref.read(themeModeProvider.notifier).applyUserThemePreference();
       return user;
     });
@@ -37,7 +39,9 @@ class AuthController extends AsyncNotifier<UserModel?> {
         state = previousState;
         return false;
       }
-      final user = await ref.read(authRepositoryProvider).loginWithGoogle(idToken: idToken);
+      final user = await ref
+          .read(authRepositoryProvider)
+          .loginWithGoogle(idToken: idToken);
       await ref.read(themeModeProvider.notifier).applyUserThemePreference();
       state = AsyncValue.data(user);
       return true;
@@ -56,13 +60,15 @@ class AuthController extends AsyncNotifier<UserModel?> {
   }) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final user = await ref.read(authRepositoryProvider).register(
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-      );
+      final user = await ref
+          .read(authRepositoryProvider)
+          .register(
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            phone: phone,
+          );
       await ref.read(themeModeProvider.notifier).applyUserThemePreference();
       return user;
     });
@@ -79,4 +85,3 @@ class AuthController extends AsyncNotifier<UserModel?> {
     state = const AsyncValue.data(null);
   }
 }
-

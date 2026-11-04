@@ -21,7 +21,11 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
   bool _isUpvoting = false;
   bool _isUpdatingStatus = false;
 
-  Future<void> _updateIssueStatus(String id, String status, String remarks) async {
+  Future<void> _updateIssueStatus(
+    String id,
+    String status,
+    String remarks,
+  ) async {
     setState(() => _isUpdatingStatus = true);
     try {
       final repo = ref.read(issueRepositoryProvider);
@@ -77,7 +81,8 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
               maxLines: 3,
               autofocus: true,
               decoration: const InputDecoration(
-                hintText: 'e.g., Road resurfaced, debris cleared by zonal crew.',
+                hintText:
+                    'e.g., Road resurfaced, debris cleared by zonal crew.',
               ),
             ),
           ],
@@ -96,7 +101,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
               final remarks = remarksController.text.trim();
               if (remarks.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please enter resolution remarks.')),
+                  const SnackBar(
+                    content: Text('Please enter resolution remarks.'),
+                  ),
                 );
                 return;
               }
@@ -119,9 +126,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
       ref.invalidate(issueListProvider);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Upvote action failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Upvote action failed: $e')));
       }
     } finally {
       if (mounted) setState(() => _isUpvoting = false);
@@ -147,14 +154,19 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                   return Container(
                     height: 300,
                     color: Colors.black45,
-                    child: const Center(child: CircularProgressIndicator(color: Colors.white)),
+                    child: const Center(
+                      child: CircularProgressIndicator(color: Colors.white),
+                    ),
                   );
                 },
                 errorBuilder: (context, error, stackTrace) => Container(
                   height: 200,
                   color: Colors.black54,
                   alignment: Alignment.center,
-                  child: const Text('Failed to load image', style: TextStyle(color: Colors.white)),
+                  child: const Text(
+                    'Failed to load image',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),
@@ -181,7 +193,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
       ),
       builder: (sheetContext) => StatefulBuilder(
         builder: (ctx, setSheetState) {
-          final commentsAsync = ref.watch(issueCommentsProvider(widget.issueId));
+          final commentsAsync = ref.watch(
+            issueCommentsProvider(widget.issueId),
+          );
 
           return Padding(
             padding: EdgeInsets.only(
@@ -212,7 +226,10 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                       children: [
                         Text(
                           'Comments & Updates (${issue.commentsCount})',
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         IconButton(
                           icon: const Icon(Icons.close),
@@ -223,34 +240,47 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                     const Divider(),
                     Expanded(
                       child: commentsAsync.when(
-                        loading: () => const Center(child: CircularProgressIndicator()),
-                        error: (e, _) => Center(child: Text('Failed to load comments: $e')),
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator()),
+                        error: (e, _) =>
+                            Center(child: Text('Failed to load comments: $e')),
                         data: (comments) {
                           if (comments.isEmpty) {
                             return const Center(
                               child: Text(
                                 'No comments yet.\nBe the first to leave a message.',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(color: AppColors.textSecondaryLight),
+                                style: TextStyle(
+                                  color: AppColors.textSecondaryLight,
+                                ),
                               ),
                             );
                           }
 
                           return ListView.separated(
                             itemCount: comments.length,
-                            separatorBuilder: (context, index) => const Divider(height: 12),
+                            separatorBuilder: (context, index) =>
+                                const Divider(height: 12),
                             itemBuilder: (context, index) {
                               final c = comments[index];
-                              final isOfficial = c.authorRole != null && c.authorRole != 'CITIZEN';
+                              final isOfficial =
+                                  c.authorRole != null &&
+                                  c.authorRole != 'CITIZEN';
                               return ListTile(
                                 contentPadding: EdgeInsets.zero,
                                 leading: CircleAvatar(
                                   backgroundColor: isOfficial
-                                      ? AppColors.primary.withValues(alpha: 0.15)
+                                      ? AppColors.primary.withValues(
+                                          alpha: 0.15,
+                                        )
                                       : Colors.grey.shade200,
                                   child: Icon(
-                                    isOfficial ? Icons.verified_user : Icons.person,
-                                    color: isOfficial ? AppColors.primary : Colors.grey.shade700,
+                                    isOfficial
+                                        ? Icons.verified_user
+                                        : Icons.person,
+                                    color: isOfficial
+                                        ? AppColors.primary
+                                        : Colors.grey.shade700,
                                     size: 20,
                                   ),
                                 ),
@@ -258,15 +288,25 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                                   children: [
                                     Text(
                                       c.authorName ?? 'Citizen',
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
                                     ),
                                     if (isOfficial) ...[
                                       const SizedBox(width: 6),
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 6,
+                                          vertical: 2,
+                                        ),
                                         decoration: BoxDecoration(
-                                          color: AppColors.primary.withValues(alpha: 0.12),
-                                          borderRadius: BorderRadius.circular(4),
+                                          color: AppColors.primary.withValues(
+                                            alpha: 0.12,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
                                         ),
                                         child: Text(
                                           c.authorRole ?? 'Officer',
@@ -282,11 +322,17 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                                 ),
                                 subtitle: Padding(
                                   padding: const EdgeInsets.only(top: 4),
-                                  child: Text(c.body, style: const TextStyle(fontSize: 13)),
+                                  child: Text(
+                                    c.body,
+                                    style: const TextStyle(fontSize: 13),
+                                  ),
                                 ),
                                 trailing: Text(
                                   '${c.createdAt.day}/${c.createdAt.month}',
-                                  style: const TextStyle(fontSize: 11, color: Colors.grey),
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               );
                             },
@@ -305,7 +351,10 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(24),
                               ),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
                             ),
                           ),
                         ),
@@ -316,7 +365,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                               ? const SizedBox(
                                   width: 20,
                                   height: 20,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Icon(Icons.send),
                           onPressed: isSubmitting
@@ -326,15 +377,25 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                                   if (text.isEmpty) return;
                                   setSheetState(() => isSubmitting = true);
                                   try {
-                                    final repo = ref.read(issueRepositoryProvider);
+                                    final repo = ref.read(
+                                      issueRepositoryProvider,
+                                    );
                                     await repo.addComment(widget.issueId, text);
                                     textController.clear();
-                                    ref.invalidate(issueCommentsProvider(widget.issueId));
-                                    ref.invalidate(issueDetailProvider(widget.issueId));
+                                    ref.invalidate(
+                                      issueCommentsProvider(widget.issueId),
+                                    );
+                                    ref.invalidate(
+                                      issueDetailProvider(widget.issueId),
+                                    );
                                   } catch (e) {
                                     if (ctx.mounted) {
                                       ScaffoldMessenger.of(ctx).showSnackBar(
-                                        SnackBar(content: Text('Failed to post comment: $e')),
+                                        SnackBar(
+                                          content: Text(
+                                            'Failed to post comment: $e',
+                                          ),
+                                        ),
                                       );
                                     }
                                   } finally {
@@ -365,7 +426,10 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Complaint Details', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Complaint Details',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
@@ -384,12 +448,17 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error_outline, size: 48, color: AppColors.priorityCritical),
+              const Icon(
+                Icons.error_outline,
+                size: 48,
+                color: AppColors.priorityCritical,
+              ),
               const SizedBox(height: 12),
               Text('Failed to load issue: $err'),
               const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: () => ref.refresh(issueDetailProvider(widget.issueId)),
+                onPressed: () =>
+                    ref.refresh(issueDetailProvider(widget.issueId)),
                 child: const Text('Retry'),
               ),
             ],
@@ -415,11 +484,16 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
                         decoration: BoxDecoration(
                           color: statusColor.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: statusColor.withValues(alpha: 0.3)),
+                          border: Border.all(
+                            color: statusColor.withValues(alpha: 0.3),
+                          ),
                         ),
                         child: Text(
                           issue.status.replaceAll('_', ' '),
@@ -432,7 +506,10 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                       ),
                       const SizedBox(width: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
                         decoration: BoxDecoration(
                           color: priorityColor.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(8),
@@ -457,7 +534,10 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                       if (issue.issueReference != null)
                         Text(
                           issue.issueReference!,
-                          style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.textSecondaryLight),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textSecondaryLight,
+                          ),
                         ),
                     ],
                   ),
@@ -466,25 +546,36 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                   // Title
                   Text(
                     issue.title,
-                    style: theme.textTheme.titleLarge?.copyWith(fontSize: 22, fontWeight: FontWeight.bold),
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
 
                   // Category tag
                   Row(
                     children: [
-                      const Icon(Icons.category_outlined, size: 16, color: AppColors.textSecondaryLight),
+                      const Icon(
+                        Icons.category_outlined,
+                        size: 16,
+                        color: AppColors.textSecondaryLight,
+                      ),
                       const SizedBox(width: 6),
                       Text(
                         issue.categoryName,
-                        style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.primary),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 14),
 
                   // Description
-                  if (issue.description != null && issue.description!.isNotEmpty) ...[
+                  if (issue.description != null &&
+                      issue.description!.isNotEmpty) ...[
                     Card(
                       child: Padding(
                         padding: const EdgeInsets.all(14.0),
@@ -501,7 +592,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                   if (issue.attachments.isNotEmpty) ...[
                     Text(
                       'Photographic Evidence (${issue.attachments.length})',
-                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     SizedBox(
@@ -509,7 +602,8 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: issue.attachments.length,
-                        separatorBuilder: (context, index) => const SizedBox(width: 10),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(width: 10),
                         itemBuilder: (ctx, i) {
                           final att = issue.attachments[i];
                           // Robust image URL resolution via ApiEndpoints.getImageUrl
@@ -522,8 +616,14 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                               child: Container(
                                 width: 140,
                                 decoration: BoxDecoration(
-                                  color: isDark ? AppColors.surfaceDark : Colors.grey.shade100,
-                                  border: Border.all(color: isDark ? AppColors.borderDark : Colors.grey.shade300),
+                                  color: isDark
+                                      ? AppColors.surfaceDark
+                                      : Colors.grey.shade100,
+                                  border: Border.all(
+                                    color: isDark
+                                        ? AppColors.borderDark
+                                        : Colors.grey.shade300,
+                                  ),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Stack(
@@ -534,21 +634,39 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                                       fit: BoxFit.cover,
                                       loadingBuilder: (c, child, p) => p == null
                                           ? child
-                                          : const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-                                      errorBuilder: (context, error, stackTrace) => const Center(
-                                        child: Icon(Icons.broken_image, color: Colors.grey),
-                                      ),
+                                          : const Center(
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                              ),
+                                            ),
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Center(
+                                                child: Icon(
+                                                  Icons.broken_image,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
                                     ),
                                     Positioned(
                                       bottom: 6,
                                       right: 6,
                                       child: Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 5,
+                                          vertical: 3,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: Colors.black54,
-                                          borderRadius: BorderRadius.circular(4),
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
                                         ),
-                                        child: const Icon(Icons.zoom_in, color: Colors.white, size: 14),
+                                        child: const Icon(
+                                          Icons.zoom_in,
+                                          color: Colors.white,
+                                          size: 14,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -569,17 +687,27 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.statusAssigned.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.statusAssigned.withValues(alpha: 0.3)),
+                        border: Border.all(
+                          color: AppColors.statusAssigned.withValues(
+                            alpha: 0.3,
+                          ),
+                        ),
                       ),
                       child: Row(
                         children: [
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppColors.statusAssigned.withValues(alpha: 0.15),
+                              color: AppColors.statusAssigned.withValues(
+                                alpha: 0.15,
+                              ),
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.badge_outlined, color: AppColors.statusAssigned, size: 22),
+                            child: const Icon(
+                              Icons.badge_outlined,
+                              color: AppColors.statusAssigned,
+                              size: 22,
+                            ),
                           ),
                           const SizedBox(width: 12),
                           Column(
@@ -587,11 +715,18 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                             children: [
                               const Text(
                                 'Assigned Field Officer',
-                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.statusAssigned),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.statusAssigned,
+                                ),
                               ),
                               Text(
                                 issue.assignedOfficerName!,
-                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ],
                           ),
@@ -610,35 +745,54 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                         decoration: BoxDecoration(
                           color: AppColors.aiBadge.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: AppColors.aiBadge.withValues(alpha: 0.3)),
+                          border: Border.all(
+                            color: AppColors.aiBadge.withValues(alpha: 0.3),
+                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
-                                const Icon(Icons.auto_awesome, color: AppColors.aiBadge, size: 20),
+                                const Icon(
+                                  Icons.auto_awesome,
+                                  color: AppColors.aiBadge,
+                                  size: 20,
+                                ),
                                 const SizedBox(width: 8),
                                 const Text(
                                   'AI Dispatch Routing',
-                                  style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.aiBadge),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.aiBadge,
+                                  ),
                                 ),
                                 const Spacer(),
                                 Text(
                                   '${(intel.overallConfidence * 100).toInt()}% Confidence',
-                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.aiBadge),
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.aiBadge,
+                                  ),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 8),
                             Text(
                               'Department: ${intel.recommendedDepartment}',
-                              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                              ),
                             ),
                             const SizedBox(height: 4),
                             Text(
                               intel.explanation,
-                              style: const TextStyle(fontSize: 12, color: AppColors.textSecondaryLight),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textSecondaryLight,
+                              ),
                             ),
                           ],
                         ),
@@ -658,14 +812,29 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                         children: [
                           Row(
                             children: [
-                              const Icon(Icons.location_on, color: AppColors.primary, size: 20),
+                              const Icon(
+                                Icons.location_on,
+                                color: AppColors.primary,
+                                size: 20,
+                              ),
                               const SizedBox(width: 8),
-                              const Text('Incident Location & Map', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                              const Text(
+                                'Incident Location & Map',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
+                              ),
                               const Spacer(),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 3,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withValues(alpha: 0.1),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.1,
+                                  ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
@@ -691,14 +860,32 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                             showUserRadar: false,
                           ),
                           const SizedBox(height: 10),
-                          Text('Address: ${issue.address ?? 'Not specified'}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
+                          Text(
+                            'Address: ${issue.address ?? 'Not specified'}',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           if (issue.landmark != null) ...[
                             const SizedBox(height: 3),
-                            Text('Landmark: ${issue.landmark}', style: const TextStyle(fontSize: 12.5, color: AppColors.textSecondaryLight)),
+                            Text(
+                              'Landmark: ${issue.landmark}',
+                              style: const TextStyle(
+                                fontSize: 12.5,
+                                color: AppColors.textSecondaryLight,
+                              ),
+                            ),
                           ],
                           if (issue.wardName != null) ...[
                             const SizedBox(height: 3),
-                            Text('Ward: ${issue.wardName}', style: const TextStyle(fontSize: 12.5, color: AppColors.textSecondaryLight)),
+                            Text(
+                              'Ward: ${issue.wardName}',
+                              style: const TextStyle(
+                                fontSize: 12.5,
+                                color: AppColors.textSecondaryLight,
+                              ),
+                            ),
                           ],
                         ],
                       ),
@@ -709,7 +896,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                   // Timeline & Audit Trail with connected vertical progress
                   Text(
                     'Status Timeline & Audit Trail',
-                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   timelineAsync.when(
@@ -739,7 +928,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                             itemBuilder: (ctx, i) {
                               final ev = events[i];
                               final isLast = i == events.length - 1;
-                              final isFinal = ev.toStatus == 'RESOLVED' || ev.toStatus == 'CLOSED';
+                              final isFinal =
+                                  ev.toStatus == 'RESOLVED' ||
+                                  ev.toStatus == 'CLOSED';
 
                               return IntrinsicHeight(
                                 child: Row(
@@ -749,16 +940,25 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                                     Column(
                                       children: [
                                         Icon(
-                                          isFinal ? Icons.check_circle : Icons.radio_button_checked,
+                                          isFinal
+                                              ? Icons.check_circle
+                                              : Icons.radio_button_checked,
                                           size: 18,
-                                          color: isFinal ? AppColors.statusResolved : AppColors.primary,
+                                          color: isFinal
+                                              ? AppColors.statusResolved
+                                              : AppColors.primary,
                                         ),
                                         if (!isLast)
                                           Expanded(
                                             child: Container(
                                               width: 2,
-                                              color: isDark ? AppColors.borderDark : AppColors.borderLight,
-                                              margin: const EdgeInsets.symmetric(vertical: 4),
+                                              color: isDark
+                                                  ? AppColors.borderDark
+                                                  : AppColors.borderLight,
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                    vertical: 4,
+                                                  ),
                                             ),
                                           ),
                                       ],
@@ -767,20 +967,32 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                                     // Event details
                                     Expanded(
                                       child: Padding(
-                                        padding: EdgeInsets.only(bottom: isLast ? 0 : 16.0),
+                                        padding: EdgeInsets.only(
+                                          bottom: isLast ? 0 : 16.0,
+                                        ),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
                                               children: [
                                                 Text(
-                                                  ev.eventType.replaceAll('_', ' '),
-                                                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                                                  ev.eventType.replaceAll(
+                                                    '_',
+                                                    ' ',
+                                                  ),
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 13,
+                                                  ),
                                                 ),
                                                 const Spacer(),
                                                 Text(
                                                   '${ev.createdAt.day}/${ev.createdAt.month} ${ev.createdAt.hour.toString().padLeft(2, '0')}:${ev.createdAt.minute.toString().padLeft(2, '0')}',
-                                                  style: const TextStyle(fontSize: 11, color: Colors.grey),
+                                                  style: const TextStyle(
+                                                    fontSize: 11,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -788,20 +1000,35 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                                               const SizedBox(height: 2),
                                               Text(
                                                 'By: ${ev.actorName} (${ev.actorRole ?? 'Citizen'})',
-                                                style: const TextStyle(fontSize: 12, color: AppColors.textSecondaryLight),
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: AppColors
+                                                      .textSecondaryLight,
+                                                ),
                                               ),
                                             ],
-                                            if (ev.remarks != null && ev.remarks!.isNotEmpty) ...[
+                                            if (ev.remarks != null &&
+                                                ev.remarks!.isNotEmpty) ...[
                                               const SizedBox(height: 4),
                                               Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 4,
+                                                    ),
                                                 decoration: BoxDecoration(
-                                                  color: isDark ? AppColors.surfaceDark : Colors.grey.shade100,
-                                                  borderRadius: BorderRadius.circular(6),
+                                                  color: isDark
+                                                      ? AppColors.surfaceDark
+                                                      : Colors.grey.shade100,
+                                                  borderRadius:
+                                                      BorderRadius.circular(6),
                                                 ),
                                                 child: Text(
                                                   ev.remarks!,
-                                                  style: const TextStyle(fontSize: 12, fontStyle: FontStyle.italic),
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontStyle: FontStyle.italic,
+                                                  ),
                                                 ),
                                               ),
                                             ],
@@ -823,14 +1050,23 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                   // Field Officer Action Control Card
                   Consumer(
                     builder: (context, ref, _) {
-                      final currentUser = ref.watch(authControllerProvider).value;
-                      final isOfficer = currentUser != null &&
-                          (currentUser.role.contains('OFFICER') || currentUser.role.contains('ADMIN'));
-                      final isResolved = issue.status == 'RESOLVED' || issue.status == 'CLOSED';
+                      final currentUser = ref
+                          .watch(authControllerProvider)
+                          .value;
+                      final isOfficer =
+                          currentUser != null &&
+                          (currentUser.role.contains('OFFICER') ||
+                              currentUser.role.contains('ADMIN'));
+                      final isResolved =
+                          issue.status == 'RESOLVED' ||
+                          issue.status == 'CLOSED';
 
-                      if (!isOfficer || isResolved) return const SizedBox.shrink();
+                      if (!isOfficer || isResolved) {
+                        return const SizedBox.shrink();
+                      }
 
-                      final canStartWork = issue.status == 'REPORTED' ||
+                      final canStartWork =
+                          issue.status == 'REPORTED' ||
                           issue.status == 'ACKNOWLEDGED' ||
                           issue.status == 'ASSIGNED';
                       final canResolve = issue.status == 'IN_PROGRESS';
@@ -841,24 +1077,39 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                         decoration: BoxDecoration(
                           color: AppColors.primary.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+                          border: Border.all(
+                            color: AppColors.primary.withValues(alpha: 0.3),
+                          ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
-                                const Icon(Icons.engineering, color: AppColors.primary, size: 20),
+                                const Icon(
+                                  Icons.engineering,
+                                  color: AppColors.primary,
+                                  size: 20,
+                                ),
                                 const SizedBox(width: 8),
                                 const Text(
                                   'Field Officer Controls',
-                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.primary),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: AppColors.primary,
+                                  ),
                                 ),
                                 const Spacer(),
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 3,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: AppColors.primary.withValues(alpha: 0.15),
+                                    color: AppColors.primary.withValues(
+                                      alpha: 0.15,
+                                    ),
                                     borderRadius: BorderRadius.circular(12),
                                   ),
                                   child: Text(
@@ -875,7 +1126,10 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                             const SizedBox(height: 8),
                             const Text(
                               'Update complaint resolution lifecycle directly from the field:',
-                              style: TextStyle(fontSize: 12, color: AppColors.textSecondaryLight),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textSecondaryLight,
+                              ),
                             ),
                             const SizedBox(height: 14),
                             if (canStartWork)
@@ -887,18 +1141,23 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                                 onPressed: _isUpdatingStatus
                                     ? null
                                     : () => _updateIssueStatus(
-                                          issue.id,
-                                          'IN_PROGRESS',
-                                          'Field officer dispatched and initiated on-site investigation.',
-                                        ),
+                                        issue.id,
+                                        'IN_PROGRESS',
+                                        'Field officer dispatched and initiated on-site investigation.',
+                                      ),
                                 icon: _isUpdatingStatus
                                     ? const SizedBox(
                                         width: 16,
                                         height: 16,
-                                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
                                       )
                                     : const Icon(Icons.play_arrow),
-                                label: const Text('Start Work (Mark In-Progress)'),
+                                label: const Text(
+                                  'Start Work (Mark In-Progress)',
+                                ),
                               ),
                             if (canResolve)
                               ElevatedButton.icon(
@@ -906,12 +1165,17 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                                   backgroundColor: AppColors.statusResolved,
                                   foregroundColor: Colors.white,
                                 ),
-                                onPressed: _isUpdatingStatus ? null : () => _showResolveDialog(context, issue),
+                                onPressed: _isUpdatingStatus
+                                    ? null
+                                    : () => _showResolveDialog(context, issue),
                                 icon: _isUpdatingStatus
                                     ? const SizedBox(
                                         width: 16,
                                         height: 16,
-                                        child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: Colors.white,
+                                        ),
                                       )
                                     : const Icon(Icons.check_circle_outline),
                                 label: const Text('Complete & Mark Resolved'),
@@ -927,12 +1191,20 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                     children: [
                       Expanded(
                         child: ElevatedButton.icon(
-                          onPressed: _isUpvoting ? null : () => _handleUpvote(issue),
+                          onPressed: _isUpvoting
+                              ? null
+                              : () => _handleUpvote(issue),
                           icon: Icon(
-                            issue.hasUpvoted ? Icons.thumb_up : Icons.thumb_up_alt_outlined,
+                            issue.hasUpvoted
+                                ? Icons.thumb_up
+                                : Icons.thumb_up_alt_outlined,
                             size: 18,
                           ),
-                          label: Text(issue.hasUpvoted ? 'Upvoted (${issue.upvotesCount})' : 'Upvote (${issue.upvotesCount})'),
+                          label: Text(
+                            issue.hasUpvoted
+                                ? 'Upvoted (${issue.upvotesCount})'
+                                : 'Upvote (${issue.upvotesCount})',
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),

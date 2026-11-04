@@ -141,15 +141,20 @@ class IssueRepository {
         'eventType': 'REPORTED',
         'title': 'Complaint Registered',
         'description': 'Citizen reported issue with GPS coordinates.',
-        'createdAt': DateTime.now().subtract(const Duration(hours: 4)).toIso8601String(),
+        'createdAt': DateTime.now()
+            .subtract(const Duration(hours: 4))
+            .toIso8601String(),
         'actorName': 'Rahul Sharma',
       },
       {
         'id': 'tl-2',
         'eventType': 'AI_TRIAGED',
         'title': 'AI Triage & Route',
-        'description': 'Severity evaluated as HIGH (Score 82.5). Routing to PWD Ward 12.',
-        'createdAt': DateTime.now().subtract(const Duration(hours: 3)).toIso8601String(),
+        'description':
+            'Severity evaluated as HIGH (Score 82.5). Routing to PWD Ward 12.',
+        'createdAt': DateTime.now()
+            .subtract(const Duration(hours: 3))
+            .toIso8601String(),
         'actorName': 'CivicPulse AI Engine',
       },
     ],
@@ -163,7 +168,9 @@ class IssueRepository {
         'authorRole': 'CITIZEN',
         'body': 'This pothole is growing deeper every rainy day.',
         'content': 'This pothole is growing deeper every rainy day.',
-        'createdAt': DateTime.now().subtract(const Duration(hours: 3)).toIso8601String(),
+        'createdAt': DateTime.now()
+            .subtract(const Duration(hours: 3))
+            .toIso8601String(),
       },
     ],
   };
@@ -171,15 +178,35 @@ class IssueRepository {
   static Map<String, String> _resolveCategory(String categoryId) {
     switch (categoryId) {
       case 'cat-roads':
-        return {'name': 'Roads & Potholes', 'color': '#EA4335', 'defaultPriority': 'HIGH'};
+        return {
+          'name': 'Roads & Potholes',
+          'color': '#EA4335',
+          'defaultPriority': 'HIGH',
+        };
       case 'cat-sanitation':
-        return {'name': 'Sanitation & Waste', 'color': '#FBBC05', 'defaultPriority': 'HIGH'};
+        return {
+          'name': 'Sanitation & Waste',
+          'color': '#FBBC05',
+          'defaultPriority': 'HIGH',
+        };
       case 'cat-water':
-        return {'name': 'Water Supply', 'color': '#4285F4', 'defaultPriority': 'CRITICAL'};
+        return {
+          'name': 'Water Supply',
+          'color': '#4285F4',
+          'defaultPriority': 'CRITICAL',
+        };
       case 'cat-lighting':
-        return {'name': 'Street Lighting', 'color': '#34A853', 'defaultPriority': 'MEDIUM'};
+        return {
+          'name': 'Street Lighting',
+          'color': '#34A853',
+          'defaultPriority': 'MEDIUM',
+        };
       default:
-        return {'name': 'Civic Infrastructure', 'color': '#EA4335', 'defaultPriority': 'MEDIUM'};
+        return {
+          'name': 'Civic Infrastructure',
+          'color': '#EA4335',
+          'defaultPriority': 'MEDIUM',
+        };
     }
   }
 
@@ -187,7 +214,9 @@ class IssueRepository {
     try {
       final response = await _dio.get(ApiEndpoints.categories);
       final data = response.data['data'] as List<dynamic>? ?? [];
-      return data.map((json) => CategoryModel.fromJson(json as Map<String, dynamic>)).toList();
+      return data
+          .map((json) => CategoryModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } catch (_) {
       return const [
         CategoryModel(
@@ -246,7 +275,9 @@ class IssueRepository {
       );
 
       final data = response.data['data'] as List<dynamic>? ?? [];
-      return data.map((json) => IssueModel.fromJson(json as Map<String, dynamic>)).toList();
+      return data
+          .map((json) => IssueModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } catch (_) {
       return _generateDemoIssues(
         statusFilter: status,
@@ -265,15 +296,13 @@ class IssueRepository {
     try {
       final response = await _dio.get(
         ApiEndpoints.nearbyIssues,
-        queryParameters: {
-          'lat': lat,
-          'lng': lng,
-          'radius': radius,
-        },
+        queryParameters: {'lat': lat, 'lng': lng, 'radius': radius},
       );
 
       final data = response.data['data'] as List<dynamic>? ?? [];
-      return data.map((json) => IssueModel.fromJson(json as Map<String, dynamic>)).toList();
+      return data
+          .map((json) => IssueModel.fromJson(json as Map<String, dynamic>))
+          .toList();
     } catch (_) {
       return _generateDemoIssues();
     }
@@ -285,10 +314,7 @@ class IssueRepository {
       return IssueModel.fromJson(response.data['data'] as Map<String, dynamic>);
     } catch (_) {
       final list = _generateDemoIssues();
-      return list.firstWhere(
-        (iss) => iss.id == id,
-        orElse: () => list.first,
-      );
+      return list.firstWhere((iss) => iss.id == id, orElse: () => list.first);
     }
   }
 
@@ -300,9 +326,15 @@ class IssueRepository {
   }) {
     return _demoIssues.where((item) {
       if (statusFilter != null && item.status != statusFilter) return false;
-      if (priorityFilter != null && item.priority != priorityFilter) return false;
-      if (reporterFilter != null && item.reporterId != reporterFilter) return false;
-      if (officerFilter != null && item.assignedOfficerName == null) return false;
+      if (priorityFilter != null && item.priority != priorityFilter) {
+        return false;
+      }
+      if (reporterFilter != null && item.reporterId != reporterFilter) {
+        return false;
+      }
+      if (officerFilter != null && item.assignedOfficerName == null) {
+        return false;
+      }
       return true;
     }).toList();
   }
@@ -311,7 +343,9 @@ class IssueRepository {
     try {
       final response = await _dio.get(ApiEndpoints.issueIntelligence(id));
       if (response.data?['data'] != null) {
-        return IntelligenceModel.fromJson(response.data['data'] as Map<String, dynamic>);
+        return IntelligenceModel.fromJson(
+          response.data['data'] as Map<String, dynamic>,
+        );
       }
     } catch (_) {}
     return null;
@@ -326,11 +360,14 @@ class IssueRepository {
         ApiEndpoints.suggestDraft,
         data: {
           'title': title.trim(),
-          if (description != null && description.isNotEmpty) 'description': description.trim(),
+          if (description != null && description.isNotEmpty)
+            'description': description.trim(),
         },
       );
       if (response.data?['data'] != null) {
-        return IntelligenceModel.fromJson(response.data['data'] as Map<String, dynamic>);
+        return IntelligenceModel.fromJson(
+          response.data['data'] as Map<String, dynamic>,
+        );
       }
     } catch (_) {
       // Local AI rule engine fallback when backend AI service is unavailable
@@ -348,7 +385,8 @@ class IssueRepository {
           overallConfidence: 0.94,
           categoryConfidence: 0.96,
           priorityConfidence: 0.92,
-          explanation: 'Keyword analysis matches road surface hazard and traffic disruption.',
+          explanation:
+              'Keyword analysis matches road surface hazard and traffic disruption.',
           needsHumanReview: false,
         );
       } else if (text.contains('water') ||
@@ -364,7 +402,8 @@ class IssueRepository {
           overallConfidence: 0.92,
           categoryConfidence: 0.95,
           priorityConfidence: 0.90,
-          explanation: 'Keyword analysis matches municipal water distribution integrity.',
+          explanation:
+              'Keyword analysis matches municipal water distribution integrity.',
           needsHumanReview: false,
         );
       } else if (text.contains('garbage') ||
@@ -380,7 +419,8 @@ class IssueRepository {
           overallConfidence: 0.91,
           categoryConfidence: 0.93,
           priorityConfidence: 0.89,
-          explanation: 'Keyword analysis matches public health sanitation and waste clearance.',
+          explanation:
+              'Keyword analysis matches public health sanitation and waste clearance.',
           needsHumanReview: false,
         );
       } else if (text.contains('light') ||
@@ -396,7 +436,8 @@ class IssueRepository {
           overallConfidence: 0.89,
           categoryConfidence: 0.92,
           priorityConfidence: 0.86,
-          explanation: 'Keyword analysis matches illumination safety and electrical maintenance.',
+          explanation:
+              'Keyword analysis matches illumination safety and electrical maintenance.',
           needsHumanReview: false,
         );
       }
@@ -419,17 +460,25 @@ class IssueRepository {
         ApiEndpoints.issues,
         data: {
           'title': title.trim(),
-          'description': (description != null && description.isNotEmpty ? description.trim() : null),
+          'description': (description != null && description.isNotEmpty
+              ? description.trim()
+              : null),
           'categoryId': categoryId,
           'priority': priority,
           'latitude': latitude,
           'longitude': longitude,
-          'address': (address != null && address.isNotEmpty ? address.trim() : null),
-          'landmark': (landmark != null && landmark.isNotEmpty ? landmark.trim() : null),
+          'address': (address != null && address.isNotEmpty
+              ? address.trim()
+              : null),
+          'landmark': (landmark != null && landmark.isNotEmpty
+              ? landmark.trim()
+              : null),
         },
       );
 
-      final created = IssueModel.fromJson(response.data['data'] as Map<String, dynamic>);
+      final created = IssueModel.fromJson(
+        response.data['data'] as Map<String, dynamic>,
+      );
       _demoIssues.insert(0, created);
       return created;
     } catch (_) {
@@ -441,14 +490,16 @@ class IssueRepository {
         issueNumber: 100 + _demoIssues.length + 1,
         issueReference: refNum,
         title: title.trim(),
-        description: description != null && description.isNotEmpty ? description.trim() : null,
+        description: description != null && description.isNotEmpty
+            ? description.trim()
+            : null,
         status: 'SUBMITTED',
         priority: priority ?? categoryInfo['defaultPriority'] ?? 'MEDIUM',
         priorityScore: priority == 'CRITICAL'
             ? 95.0
             : priority == 'HIGH'
-                ? 80.0
-                : 60.0,
+            ? 80.0
+            : 60.0,
         categoryId: categoryId,
         categoryName: categoryInfo['name'] ?? 'General Civic',
         categoryColor: categoryInfo['color'] ?? '#EA4335',
@@ -459,8 +510,12 @@ class IssueRepository {
         wardName: 'Ward 12 - Indiranagar',
         latitude: latitude,
         longitude: longitude,
-        address: address != null && address.isNotEmpty ? address.trim() : 'Bhopal City Center, MP',
-        landmark: landmark != null && landmark.isNotEmpty ? landmark.trim() : 'Pinpoint GPS Geotag',
+        address: address != null && address.isNotEmpty
+            ? address.trim()
+            : 'Bhopal City Center, MP',
+        landmark: landmark != null && landmark.isNotEmpty
+            ? landmark.trim()
+            : 'Pinpoint GPS Geotag',
         upvotesCount: 0,
         commentsCount: 0,
         hasUpvoted: false,
@@ -509,7 +564,9 @@ class IssueRepository {
 
         _demoTimeline.putIfAbsent(issueId, () => []).add({
           'id': 'tl-${DateTime.now().millisecondsSinceEpoch}',
-          'eventType': status == 'RESOLVED' ? 'STATUS_RESOLVED' : 'STATUS_CHANGED',
+          'eventType': status == 'RESOLVED'
+              ? 'STATUS_RESOLVED'
+              : 'STATUS_CHANGED',
           'title': 'Status changed to $status',
           'description': remarks ?? 'Status updated by municipal officer.',
           'createdAt': DateTime.now().toIso8601String(),
@@ -530,15 +587,21 @@ class IssueRepository {
     String attachmentType = 'REPORT',
     bool isBefore = true,
   }) async {
-    final fileName = originalFilename ??
-        (filePath != null ? filePath.split(RegExp(r'[/\\]')).last : 'photo.jpg');
+    final fileName =
+        originalFilename ??
+        (filePath != null
+            ? filePath.split(RegExp(r'[/\\]')).last
+            : 'photo.jpg');
 
     try {
       final MultipartFile multipartFile;
       if (fileBytes != null) {
         multipartFile = MultipartFile.fromBytes(fileBytes, filename: fileName);
       } else if (filePath != null) {
-        multipartFile = await MultipartFile.fromFile(filePath, filename: fileName);
+        multipartFile = await MultipartFile.fromFile(
+          filePath,
+          filename: fileName,
+        );
       } else {
         throw ArgumentError('Either fileBytes or filePath must be provided');
       }
@@ -549,10 +612,7 @@ class IssueRepository {
         'isBefore': isBefore,
       });
 
-      await _dio.post(
-        ApiEndpoints.issueAttachments(issueId),
-        data: formData,
-      );
+      await _dio.post(ApiEndpoints.issueAttachments(issueId), data: formData);
     } catch (_) {
       // Local fallback for evidentiary photo attachment
       final index = _demoIssues.indexWhere((iss) => iss.id == issueId);
@@ -560,7 +620,8 @@ class IssueRepository {
         final existing = _demoIssues[index];
         final newAttachment = AttachmentModel(
           id: 'att-${DateTime.now().millisecondsSinceEpoch}',
-          fileUrl: 'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=800',
+          fileUrl:
+              'https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=800',
           originalFilename: fileName,
           fileType: 'IMAGE',
           fileSize: fileBytes?.length ?? 102400,
@@ -585,9 +646,13 @@ class IssueRepository {
       if (index != -1) {
         final issue = _demoIssues[index];
         final newUpvoted = !issue.hasUpvoted;
-        final newCount =
-            newUpvoted ? issue.upvotesCount + 1 : (issue.upvotesCount > 0 ? issue.upvotesCount - 1 : 0);
-        _demoIssues[index] = issue.copyWith(hasUpvoted: newUpvoted, upvotesCount: newCount);
+        final newCount = newUpvoted
+            ? issue.upvotesCount + 1
+            : (issue.upvotesCount > 0 ? issue.upvotesCount - 1 : 0);
+        _demoIssues[index] = issue.copyWith(
+          hasUpvoted: newUpvoted,
+          upvotesCount: newCount,
+        );
         return newUpvoted;
       }
       return false;
@@ -607,7 +672,9 @@ class IssueRepository {
               'eventType': 'REPORTED',
               'title': 'Issue Submitted',
               'description': 'Report registered into municipal dispatch queue.',
-              'createdAt': DateTime.now().subtract(const Duration(hours: 1)).toIso8601String(),
+              'createdAt': DateTime.now()
+                  .subtract(const Duration(hours: 1))
+                  .toIso8601String(),
               'actorName': 'System Dispatcher',
             },
           ];
@@ -624,7 +691,11 @@ class IssueRepository {
     }
   }
 
-  Future<dynamic> addComment(String issueId, String body, {bool isInternal = false}) async {
+  Future<dynamic> addComment(
+    String issueId,
+    String body, {
+    bool isInternal = false,
+  }) async {
     try {
       final response = await _dio.post(
         ApiEndpoints.issueComments(issueId),
@@ -666,10 +737,13 @@ class IssueRepository {
         {
           'id': 'notif-1',
           'title': 'Complaint Status Update',
-          'message': 'Your report CP-7821 on Roads & Potholes is assigned to Officer Vikram Singh.',
+          'message':
+              'Your report CP-7821 on Roads & Potholes is assigned to Officer Vikram Singh.',
           'type': 'STATUS_CHANGE',
           'isRead': false,
-          'createdAt': DateTime.now().subtract(const Duration(minutes: 45)).toIso8601String(),
+          'createdAt': DateTime.now()
+              .subtract(const Duration(minutes: 45))
+              .toIso8601String(),
         },
         {
           'id': 'notif-2',
@@ -677,7 +751,9 @@ class IssueRepository {
           'message': '5 citizens in Ward 12 upvoted your pothole complaint.',
           'type': 'UPVOTE',
           'isRead': true,
-          'createdAt': DateTime.now().subtract(const Duration(hours: 2)).toIso8601String(),
+          'createdAt': DateTime.now()
+              .subtract(const Duration(hours: 2))
+              .toIso8601String(),
         },
       ];
     }

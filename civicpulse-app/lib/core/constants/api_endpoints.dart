@@ -32,9 +32,11 @@ class ApiEndpoints {
       clean = '$clean/api/v1';
     }
     _customBaseUrl = clean;
-    SharedPreferences.getInstance().then((prefs) {
-      prefs.setString(_prefKey, clean);
-    }).catchError((_) {});
+    SharedPreferences.getInstance()
+        .then((prefs) {
+          prefs.setString(_prefKey, clean);
+        })
+        .catchError((_) {});
     for (final listener in List.of(_listeners)) {
       try {
         listener(clean);
@@ -94,7 +96,8 @@ class ApiEndpoints {
   // Intelligence endpoints
   static const String suggestDraft = '/intelligence/suggest';
   static String issueIntelligence(String id) => '/issues/$id/intelligence';
-  static String reviewIntelligence(String id) => '/issues/$id/intelligence/review';
+  static String reviewIntelligence(String id) =>
+      '/issues/$id/intelligence/review';
 
   // Categories & Wards
   static const String categories = '/categories';

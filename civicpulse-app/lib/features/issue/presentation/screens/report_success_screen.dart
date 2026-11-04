@@ -19,7 +19,9 @@ class ReportSuccessScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final displayRef = referenceNumber ?? 'CP-${issueId.length >= 8 ? issueId.substring(0, 8).toUpperCase() : issueId}';
+    final displayRef =
+        referenceNumber ??
+        'CP-${issueId.length >= 8 ? issueId.substring(0, 8).toUpperCase() : issueId}';
 
     return PopScope(
       canPop: false,
@@ -41,7 +43,10 @@ class ReportSuccessScreen extends StatelessWidget {
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 16.0,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -79,7 +84,9 @@ class ReportSuccessScreen extends StatelessWidget {
                     'Your report has been securely registered on CivicPulse and routed to municipal field supervisors for triage.',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                      color: isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondaryLight,
                       height: 1.5,
                     ),
                   ),
@@ -93,7 +100,9 @@ class ReportSuccessScreen extends StatelessWidget {
                       color: isDark ? AppColors.surfaceDark : Colors.white,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                        color: isDark
+                            ? AppColors.borderDark
+                            : AppColors.borderLight,
                       ),
                     ),
                     child: Column(
@@ -104,7 +113,9 @@ class ReportSuccessScreen extends StatelessWidget {
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.8,
-                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -125,11 +136,15 @@ class ReportSuccessScreen extends StatelessWidget {
                               tooltip: 'Copy Reference Number',
                               color: AppColors.primary,
                               onPressed: () {
-                                Clipboard.setData(ClipboardData(text: displayRef));
+                                Clipboard.setData(
+                                  ClipboardData(text: displayRef),
+                                );
                                 HapticFeedback.lightImpact();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text('Reference number copied to clipboard!'),
+                                    content: Text(
+                                      'Reference number copied to clipboard!',
+                                    ),
                                     duration: Duration(seconds: 2),
                                   ),
                                 );
@@ -142,9 +157,14 @@ class ReportSuccessScreen extends StatelessWidget {
                           Chip(
                             label: Text(
                               categoryName!,
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                            backgroundColor: AppColors.primary.withValues(alpha: 0.08),
+                            backgroundColor: AppColors.primary.withValues(
+                              alpha: 0.08,
+                            ),
                             side: BorderSide.none,
                           ),
                         ],
@@ -155,7 +175,8 @@ class ReportSuccessScreen extends StatelessWidget {
 
                   // Action Buttons
                   ElevatedButton.icon(
-                    onPressed: () => context.pushReplacement('/issues/$issueId'),
+                    onPressed: () =>
+                        context.pushReplacement('/issues/$issueId'),
                     icon: const Icon(Icons.track_changes_rounded),
                     label: const Text('Track Issue Live'),
                     style: ElevatedButton.styleFrom(

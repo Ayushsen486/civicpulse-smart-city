@@ -5,8 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 const String _kThemePreferenceKey = 'civicpulse_theme_mode';
 
 /// State notifier provider for dynamic theme switching & persistence.
-final themeModeProvider =
-    NotifierProvider<ThemeModeNotifier, ThemeMode>(ThemeModeNotifier.new);
+final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(
+  ThemeModeNotifier.new,
+);
 
 class ThemeModeNotifier extends Notifier<ThemeMode> {
   @override

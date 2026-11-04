@@ -8,9 +8,5 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoogleFonts.config.allowRuntimeFetching = true;
   await ApiEndpoints.init();
-  runApp(
-    const ProviderScope(
-      child: CivicPulseApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: CivicPulseApp()));
 }

@@ -164,7 +164,9 @@ class _CivicMapWidgetState extends State<CivicMapWidget> {
                 initialCenter: center,
                 initialZoom: widget.initialZoom,
                 interactionOptions: InteractionOptions(
-                  flags: widget.interactive ? InteractiveFlag.all : InteractiveFlag.none,
+                  flags: widget.interactive
+                      ? InteractiveFlag.all
+                      : InteractiveFlag.none,
                 ),
                 onTap: (tapPosition, point) {
                   if (widget.onMapTapped != null) {
@@ -174,7 +176,8 @@ class _CivicMapWidgetState extends State<CivicMapWidget> {
               ),
               children: [
                 TileLayer(
-                  urlTemplate: 'https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
+                  urlTemplate:
+                      'https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',
                   subdomains: const ['0', '1', '2', '3'],
                   userAgentPackageName: 'com.civicpulse.civicpulse_app',
                 ),
@@ -218,11 +221,25 @@ class _CivicMapWidgetState extends State<CivicMapWidget> {
 
   IconData _getCategoryIcon(String category) {
     final lower = category.toLowerCase();
-    if (lower.contains('road') || lower.contains('pothole')) return Icons.add_road;
-    if (lower.contains('light') || lower.contains('lamp')) return Icons.lightbulb_outline;
-    if (lower.contains('water') || lower.contains('drain') || lower.contains('leak')) return Icons.water_drop_outlined;
-    if (lower.contains('waste') || lower.contains('garbage') || lower.contains('trash')) return Icons.delete_outline;
-    if (lower.contains('traffic') || lower.contains('signal')) return Icons.traffic;
+    if (lower.contains('road') || lower.contains('pothole')) {
+      return Icons.add_road;
+    }
+    if (lower.contains('light') || lower.contains('lamp')) {
+      return Icons.lightbulb_outline;
+    }
+    if (lower.contains('water') ||
+        lower.contains('drain') ||
+        lower.contains('leak')) {
+      return Icons.water_drop_outlined;
+    }
+    if (lower.contains('waste') ||
+        lower.contains('garbage') ||
+        lower.contains('trash')) {
+      return Icons.delete_outline;
+    }
+    if (lower.contains('traffic') || lower.contains('signal')) {
+      return Icons.traffic;
+    }
     return Icons.report_problem_outlined;
   }
 }

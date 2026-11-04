@@ -7,11 +7,9 @@ class JwtInterceptor extends Interceptor {
   final TokenStorage _tokenStorage;
   bool _isRefreshing = false;
 
-  JwtInterceptor({
-    required Dio dio,
-    required TokenStorage tokenStorage,
-  })  : _dio = dio,
-        _tokenStorage = tokenStorage;
+  JwtInterceptor({required Dio dio, required TokenStorage tokenStorage})
+    : _dio = dio,
+      _tokenStorage = tokenStorage;
 
   @override
   Future<void> onRequest(

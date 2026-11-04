@@ -14,39 +14,42 @@ class MockAuthController extends AuthController {
 }
 
 void main() {
-  testWidgets('LoginScreen renders Google Sign-In and toggleable municipal credentials', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          authControllerProvider.overrideWith(() => MockAuthController()),
-        ],
-        child: const MaterialApp(
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
+  testWidgets(
+    'LoginScreen renders Google Sign-In and toggleable municipal credentials',
+    (WidgetTester tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            authControllerProvider.overrideWith(() => MockAuthController()),
           ],
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: LoginScreen(),
+          child: const MaterialApp(
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: LoginScreen(),
+          ),
         ),
-      ),
-    );
+      );
 
-    await tester.pump();
+      await tester.pump();
 
-    // Verify Google Sign-In button exists prominently
-    expect(find.text('Continue with Google'), findsOneWidget);
-    expect(find.byType(GoogleLogoWidget), findsOneWidget);
+      // Verify Google Sign-In button exists prominently
+      expect(find.text('Continue with Google'), findsOneWidget);
+      expect(find.byType(GoogleLogoWidget), findsOneWidget);
 
-    // Expand email fallback
-    final toggleButton = find.text('Sign In with Email / Staff Credentials');
-    expect(toggleButton, findsOneWidget);
-    await tester.tap(toggleButton);
-    await tester.pumpAndSettle();
+      // Expand email fallback
+      final toggleButton = find.text('Sign In with Email / Staff Credentials');
+      expect(toggleButton, findsOneWidget);
+      await tester.tap(toggleButton);
+      await tester.pumpAndSettle();
 
-    // Verify email, password fields and sign in button appear
-    expect(find.byType(TextFormField), findsNWidgets(2));
-    expect(find.text('Sign In with Email'), findsOneWidget);
-  });
+      // Verify email, password fields and sign in button appear
+      expect(find.byType(TextFormField), findsNWidgets(2));
+      expect(find.text('Sign In with Email'), findsOneWidget);
+    },
+  );
 }

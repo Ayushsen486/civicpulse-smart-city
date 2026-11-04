@@ -100,8 +100,14 @@ void main() {
       expect(intelligence.suggestedCategoryId, 'cat-road-1');
       expect(intelligence.suggestedPriority, 'HIGH');
       expect(intelligence.priorityConfidence, 0.92);
-      expect(intelligence.recommendedDepartment, 'Road Maintenance & Infrastructure');
-      expect(intelligence.explanation, 'Hazardous road condition requiring immediate patching.');
+      expect(
+        intelligence.recommendedDepartment,
+        'Road Maintenance & Infrastructure',
+      );
+      expect(
+        intelligence.explanation,
+        'Hazardous road condition requiring immediate patching.',
+      );
     });
   });
 }

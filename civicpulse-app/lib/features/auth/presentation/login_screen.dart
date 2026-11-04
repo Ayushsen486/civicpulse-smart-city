@@ -37,12 +37,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           title: const Row(
             children: [
               Icon(Icons.dns_outlined, color: AppColors.primary),
               SizedBox(width: 8),
-              Text('Backend Server Connection', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                'Backend Server Connection',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ],
           ),
           content: SingleChildScrollView(
@@ -64,7 +69,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       label: const Text('USB (localhost)'),
                       onPressed: () {
                         setDialogState(() {
-                          serverController.text = 'http://localhost:8080/api/v1';
+                          serverController.text =
+                              'http://localhost:8080/api/v1';
                         });
                       },
                     ),
@@ -73,7 +79,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       label: const Text('Wi-Fi (10.209.125.178)'),
                       onPressed: () {
                         setDialogState(() {
-                          serverController.text = 'http://10.209.125.178:8080/api/v1';
+                          serverController.text =
+                              'http://10.209.125.178:8080/api/v1';
                         });
                       },
                     ),
@@ -95,7 +102,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     labelText: 'Server Base URL',
                     hintText: 'http://10.209.125.178:8080/api/v1',
                     prefixIcon: const Icon(Icons.lan_outlined),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
                 ),
               ],
@@ -112,7 +121,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ApiEndpoints.setCustomBaseUrl(serverController.text.trim());
                   setState(() => _errorMessage = null);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Server updated to: ${ApiEndpoints.baseUrl}')),
+                    SnackBar(
+                      content: Text(
+                        'Server updated to: ${ApiEndpoints.baseUrl}',
+                      ),
+                    ),
                   );
                 }
                 Navigator.of(ctx).pop();
@@ -134,12 +147,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       final choice = await showDialog<String>(
         context: context,
         builder: (ctx) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           title: const Row(
             children: [
               GoogleLogoWidget(size: 24),
               SizedBox(width: 12),
-              Text('Google Citizen Sign-In', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                'Google Citizen Sign-In',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ],
           ),
           content: Column(
@@ -156,7 +174,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 decoration: BoxDecoration(
                   color: AppColors.primary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.primary.withValues(alpha: 0.25)),
+                  border: Border.all(
+                    color: AppColors.primary.withValues(alpha: 0.25),
+                  ),
                 ),
                 child: const Row(
                   children: [
@@ -166,7 +186,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Instant Verified Citizen Demo', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                          Text(
+                            'Instant Verified Citizen Demo',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
+                          ),
                           Text(
                             'Log in immediately as a verified citizen to test reporting and exploring issues.',
                             style: TextStyle(fontSize: 12),
@@ -200,10 +226,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           _isGoogleLoading = true;
         });
         try {
-          await ref.read(authControllerProvider.notifier).login(
-            'citizen@civicpulse.city',
-            'Citizen@123',
-          );
+          await ref
+              .read(authControllerProvider.notifier)
+              .login('citizen@civicpulse.city', 'Citizen@123');
           if (mounted) {
             context.go('/');
           }
@@ -229,7 +254,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     try {
-      final success = await ref.read(authControllerProvider.notifier).signInWithGoogle();
+      final success = await ref
+          .read(authControllerProvider.notifier)
+          .signInWithGoogle();
       if (success && mounted) {
         context.go('/');
       }
@@ -244,8 +271,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         return;
       }
       String msg = 'Google sign-in was unable to complete. Please try again.';
-      if (errStr.contains('Null check operator') || errStr.contains('OAuth Client ID') || errStr.contains('GOOGLE_CLIENT_ID') || errStr.contains('invalid_client')) {
-        msg = 'Google returned invalid_client. Register an OAuth Web Client ID in Google Cloud Console for http://localhost:5000, or use the demo options.';
+      if (errStr.contains('Null check operator') ||
+          errStr.contains('OAuth Client ID') ||
+          errStr.contains('GOOGLE_CLIENT_ID') ||
+          errStr.contains('invalid_client')) {
+        msg =
+            'Google returned invalid_client. Register an OAuth Web Client ID in Google Cloud Console for http://localhost:5000, or use the demo options.';
       } else if (e is FormatException) {
         msg = e.message;
       } else if (e is DioException) {
@@ -258,16 +289,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           msg = detail ?? 'Access denied. Account is disabled or unauthorized.';
         } else if (e.response?.statusCode == 429) {
           msg = 'Too many attempts. Please wait a minute before retrying.';
-        } else if (e.response?.data is Map && (e.response!.data as Map)['detail'] != null) {
+        } else if (e.response?.data is Map &&
+            (e.response!.data as Map)['detail'] != null) {
           msg = (e.response!.data as Map)['detail'].toString();
         } else if (e.type == DioExceptionType.connectionError ||
             e.type == DioExceptionType.connectionTimeout ||
             e.type == DioExceptionType.sendTimeout ||
             e.type == DioExceptionType.receiveTimeout) {
-          msg = 'Cannot reach backend at ${ApiEndpoints.baseUrl}. Ensure server is running and accessible.';
+          msg =
+              'Cannot reach backend at ${ApiEndpoints.baseUrl}. Ensure server is running and accessible.';
         }
       } else {
-        msg = errStr.replaceFirst('Exception: ', '').replaceFirst('FormatException: ', '');
+        msg = errStr
+            .replaceFirst('Exception: ', '')
+            .replaceFirst('FormatException: ', '');
       }
       if (mounted) {
         setState(() {
@@ -289,10 +324,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     setState(() => _errorMessage = null);
 
     try {
-      await ref.read(authControllerProvider.notifier).login(
-            _emailController.text.trim(),
-            _passwordController.text,
-          );
+      await ref
+          .read(authControllerProvider.notifier)
+          .login(_emailController.text.trim(), _passwordController.text);
       if (mounted) {
         context.go('/');
       }
@@ -303,16 +337,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           msg = 'Invalid email or password. Please verify your credentials.';
         } else if (e.response?.statusCode == 429) {
           msg = 'Too many attempts. Please wait a minute before retrying.';
-        } else if (e.response?.data is Map && (e.response!.data as Map)['detail'] != null) {
+        } else if (e.response?.data is Map &&
+            (e.response!.data as Map)['detail'] != null) {
           msg = (e.response!.data as Map)['detail'].toString();
-        } else if (e.response?.data is Map && (e.response!.data as Map)['errors'] != null) {
+        } else if (e.response?.data is Map &&
+            (e.response!.data as Map)['errors'] != null) {
           final errs = (e.response!.data as Map)['errors'] as List;
           if (errs.isNotEmpty) msg = errs.first.toString();
         } else if (e.type == DioExceptionType.connectionError ||
             e.type == DioExceptionType.connectionTimeout ||
             e.type == DioExceptionType.sendTimeout ||
             e.type == DioExceptionType.receiveTimeout) {
-          msg = 'Cannot reach backend at ${ApiEndpoints.baseUrl}. Ensure mobile and PC are on the same network.';
+          msg =
+              'Cannot reach backend at ${ApiEndpoints.baseUrl}. Ensure mobile and PC are on the same network.';
         }
       }
       setState(() {
@@ -346,7 +383,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 8.0,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -354,19 +394,24 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   // Brand Icon & Badge
                   Center(
                     child: Container(
-                      padding: const EdgeInsets.all(18),
+                      width: 84,
+                      height: 84,
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.1),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.primary.withValues(alpha: 0.2),
-                          width: 1.5,
-                        ),
+                        borderRadius: BorderRadius.circular(22),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: 0.18),
+                            blurRadius: 18,
+                            offset: const Offset(0, 6),
+                          ),
+                        ],
                       ),
-                      child: const Icon(
-                        Icons.location_city_rounded,
-                        size: 52,
-                        color: AppColors.primary,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(22),
+                        child: Image.asset(
+                          'assets/images/app_logo.png',
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -384,7 +429,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     'Empowering Citizens • Transforming Cities',
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                      color: isDark
+                          ? AppColors.textSecondaryDark
+                          : AppColors.textSecondaryLight,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -396,18 +443,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       padding: const EdgeInsets.all(12),
                       margin: const EdgeInsets.only(bottom: 20),
                       decoration: BoxDecoration(
-                        color: AppColors.priorityCritical.withValues(alpha: 0.08),
+                        color: AppColors.priorityCritical.withValues(
+                          alpha: 0.08,
+                        ),
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.priorityCritical.withValues(alpha: 0.3)),
+                        border: Border.all(
+                          color: AppColors.priorityCritical.withValues(
+                            alpha: 0.3,
+                          ),
+                        ),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.error_outline, color: AppColors.priorityCritical, size: 20),
+                          const Icon(
+                            Icons.error_outline,
+                            color: AppColors.priorityCritical,
+                            size: 20,
+                          ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
                               _errorMessage!,
-                              style: const TextStyle(color: AppColors.priorityCritical, fontSize: 13),
+                              style: const TextStyle(
+                                color: AppColors.priorityCritical,
+                                fontSize: 13,
+                              ),
                             ),
                           ),
                         ],
@@ -422,12 +482,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: isDark ? AppColors.surfaceDark : Colors.white,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: isDark ? AppColors.borderDark : AppColors.borderLight,
+                        color: isDark
+                            ? AppColors.borderDark
+                            : AppColors.borderLight,
                         width: 1.2,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
+                          color: Colors.black.withValues(
+                            alpha: isDark ? 0.2 : 0.04,
+                          ),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -444,7 +508,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.5,
-                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -455,15 +521,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             onTap: isAnyLoading ? null : _handleGoogleSignIn,
                             child: Ink(
                               decoration: BoxDecoration(
-                                color: isDark ? const Color(0xFF131314) : Colors.white,
+                                color: isDark
+                                    ? const Color(0xFF131314)
+                                    : Colors.white,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                  color: isDark ? const Color(0xFF8E918F) : const Color(0xFF747775),
+                                  color: isDark
+                                      ? const Color(0xFF8E918F)
+                                      : const Color(0xFF747775),
                                   width: 1,
                                 ),
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 13,
+                                  horizontal: 16,
+                                ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -471,7 +544,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       const SizedBox(
                                         height: 20,
                                         width: 20,
-                                        child: CircularProgressIndicator(strokeWidth: 2),
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
                                       ),
                                       const SizedBox(width: 12),
                                       const Text(
@@ -489,7 +564,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,
-                                          color: isDark ? Colors.white : const Color(0xFF1F1F1F),
+                                          color: isDark
+                                              ? Colors.white
+                                              : const Color(0xFF1F1F1F),
                                         ),
                                       ),
                                     ],
@@ -505,7 +582,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 11,
-                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
                             height: 1.3,
                           ),
                         ),
@@ -518,7 +597,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   // Divider
                   Row(
                     children: [
-                      Expanded(child: Divider(color: isDark ? AppColors.borderDark : AppColors.borderLight)),
+                      Expanded(
+                        child: Divider(
+                          color: isDark
+                              ? AppColors.borderDark
+                              : AppColors.borderLight,
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: Text(
@@ -526,11 +611,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: isDark ? AppColors.textSecondaryDark : AppColors.textSecondaryLight,
+                            color: isDark
+                                ? AppColors.textSecondaryDark
+                                : AppColors.textSecondaryLight,
                           ),
                         ),
                       ),
-                      Expanded(child: Divider(color: isDark ? AppColors.borderDark : AppColors.borderLight)),
+                      Expanded(
+                        child: Divider(
+                          color: isDark
+                              ? AppColors.borderDark
+                              : AppColors.borderLight,
+                        ),
+                      ),
                     ],
                   ),
 
@@ -538,14 +631,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                   // Toggle for Email/Password fallback
                   TextButton.icon(
-                    onPressed: () => setState(() => _showEmailFallback = !_showEmailFallback),
+                    onPressed: () => setState(
+                      () => _showEmailFallback = !_showEmailFallback,
+                    ),
                     icon: Icon(
-                      _showEmailFallback ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      _showEmailFallback
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
                       size: 20,
                     ),
-                    label: Text(_showEmailFallback
-                        ? 'Hide Municipal Credentials'
-                        : 'Sign In with Email / Staff Credentials'),
+                    label: Text(
+                      _showEmailFallback
+                          ? 'Hide Municipal Credentials'
+                          : 'Sign In with Email / Staff Credentials',
+                    ),
                   ),
 
                   if (_showEmailFallback) ...[
@@ -588,10 +687,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               prefixIcon: const Icon(Icons.lock_outline),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                                  _obscurePassword
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
                                 ),
                                 onPressed: () {
-                                  setState(() => _obscurePassword = !_obscurePassword);
+                                  setState(
+                                    () => _obscurePassword = !_obscurePassword,
+                                  );
                                 },
                               ),
                             ),
@@ -623,7 +726,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           // Sign Up Link (for users preferring email/password)
                           TextButton(
                             onPressed: () => context.push('/register'),
-                            child: const Text("Need an account? Register with email"),
+                            child: const Text(
+                              "Need an account? Register with email",
+                            ),
                           ),
                         ],
                       ),
@@ -638,8 +743,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       spacing: 8,
                       children: [
                         ActionChip(
-                          avatar: const Icon(Icons.person_outline, size: 16, color: AppColors.primary),
-                          label: const Text('Test Citizen', style: TextStyle(fontSize: 12)),
+                          avatar: const Icon(
+                            Icons.person_outline,
+                            size: 16,
+                            color: AppColors.primary,
+                          ),
+                          label: const Text(
+                            'Test Citizen',
+                            style: TextStyle(fontSize: 12),
+                          ),
                           onPressed: () {
                             setState(() {
                               _showEmailFallback = true;
@@ -649,8 +761,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           },
                         ),
                         ActionChip(
-                          avatar: const Icon(Icons.security, size: 16, color: AppColors.secondary),
-                          label: const Text('Test Officer', style: TextStyle(fontSize: 12)),
+                          avatar: const Icon(
+                            Icons.security,
+                            size: 16,
+                            color: AppColors.secondary,
+                          ),
+                          label: const Text(
+                            'Test Officer',
+                            style: TextStyle(fontSize: 12),
+                          ),
                           onPressed: () {
                             setState(() {
                               _showEmailFallback = true;
@@ -682,9 +801,7 @@ class GoogleLogoWidget extends StatelessWidget {
     return SizedBox(
       width: size,
       height: size,
-      child: CustomPaint(
-        painter: _GoogleLogoPainter(),
-      ),
+      child: CustomPaint(painter: _GoogleLogoPainter()),
     );
   }
 }
@@ -737,7 +854,12 @@ class _GoogleLogoPainter extends CustomPainter {
     final barPaint = Paint()
       ..color = const Color(0xFF4285F4)
       ..style = PaintingStyle.fill;
-    final barRect = Rect.fromLTRB(cx - w * 0.05, cy - strokeWidth / 2, cx + radius + strokeWidth / 2, cy + strokeWidth / 2);
+    final barRect = Rect.fromLTRB(
+      cx - w * 0.05,
+      cy - strokeWidth / 2,
+      cx + radius + strokeWidth / 2,
+      cy + strokeWidth / 2,
+    );
     canvas.drawRect(barRect, barPaint);
   }
 

@@ -100,7 +100,8 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
       }
-      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+      if (permission == LocationPermission.whileInUse ||
+          permission == LocationPermission.always) {
         final pos = await Geolocator.getCurrentPosition(
           locationSettings: const LocationSettings(
             accuracy: LocationAccuracy.medium,
@@ -220,9 +221,9 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Submission failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Submission failed: $e')));
       }
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
@@ -237,7 +238,10 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Report Civic Issue', style: TextStyle(fontWeight: FontWeight.bold)),
+          title: const Text(
+            'Report Civic Issue',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
@@ -267,7 +271,8 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                     maxLines: 3,
                     decoration: const InputDecoration(
                       labelText: 'Detailed Description',
-                      hintText: 'Describe location, hazard severity, or surrounding landmarks...',
+                      hintText:
+                          'Describe location, hazard severity, or surrounding landmarks...',
                       prefixIcon: Icon(Icons.description_outlined),
                     ),
                   ),
@@ -325,12 +330,25 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                       prefixIcon: Icon(Icons.flag_outlined),
                     ),
                     items: const [
-                      DropdownMenuItem(value: 'LOW', child: Text('Low (Routine Maintenance)')),
-                      DropdownMenuItem(value: 'MEDIUM', child: Text('Medium (Standard Notice)')),
-                      DropdownMenuItem(value: 'HIGH', child: Text('High (Safety Hazard)')),
-                      DropdownMenuItem(value: 'CRITICAL', child: Text('Critical (Urgent Emergency)')),
+                      DropdownMenuItem(
+                        value: 'LOW',
+                        child: Text('Low (Routine Maintenance)'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'MEDIUM',
+                        child: Text('Medium (Standard Notice)'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'HIGH',
+                        child: Text('High (Safety Hazard)'),
+                      ),
+                      DropdownMenuItem(
+                        value: 'CRITICAL',
+                        child: Text('Critical (Urgent Emergency)'),
+                      ),
                     ],
-                    onChanged: (p) => setState(() => _selectedPriority = p ?? 'MEDIUM'),
+                    onChanged: (p) =>
+                        setState(() => _selectedPriority = p ?? 'MEDIUM'),
                   ),
                   const SizedBox(height: 20),
 
@@ -347,10 +365,16 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                               Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withValues(alpha: 0.1),
+                                  color: AppColors.primary.withValues(
+                                    alpha: 0.1,
+                                  ),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: const Icon(Icons.my_location, color: AppColors.primary, size: 20),
+                                child: const Icon(
+                                  Icons.my_location,
+                                  color: AppColors.primary,
+                                  size: 20,
+                                ),
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -359,7 +383,10 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                                   children: [
                                     const Text(
                                       'Exact Issue Location (GPS & Map)',
-                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 13,
+                                      ),
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
@@ -374,9 +401,17 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                                 ),
                               ),
                               TextButton.icon(
-                                onPressed: _isLocating ? null : _fetchCurrentLocation,
+                                onPressed: _isLocating
+                                    ? null
+                                    : _fetchCurrentLocation,
                                 icon: _isLocating
-                                    ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2))
+                                    ? const SizedBox(
+                                        width: 14,
+                                        height: 14,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
                                     : const Icon(Icons.gps_fixed, size: 16),
                                 label: const Text('My GPS'),
                               ),
@@ -400,11 +435,18 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                           const SizedBox(height: 6),
                           const Row(
                             children: [
-                              Icon(Icons.touch_app, size: 13, color: AppColors.textSecondaryLight),
+                              Icon(
+                                Icons.touch_app,
+                                size: 13,
+                                color: AppColors.textSecondaryLight,
+                              ),
                               SizedBox(width: 4),
                               Text(
                                 'Tap anywhere on the map to pin the exact problem location.',
-                                style: TextStyle(fontSize: 11, color: AppColors.textSecondaryLight),
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: AppColors.textSecondaryLight,
+                                ),
                               ),
                             ],
                           ),
@@ -443,21 +485,32 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                         children: [
                           const Row(
                             children: [
-                              Icon(Icons.camera_alt, color: AppColors.primary, size: 20),
+                              Icon(
+                                Icons.camera_alt,
+                                color: AppColors.primary,
+                                size: 20,
+                              ),
                               SizedBox(width: 8),
                               Text(
                                 'Evidentiary Photo (Instant Camera)',
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 4),
                           const Text(
                             'Adding a clear photo helps municipal field officers verify and prioritize the issue immediately.',
-                            style: TextStyle(color: AppColors.textSecondaryLight, fontSize: 12),
+                            style: TextStyle(
+                              color: AppColors.textSecondaryLight,
+                              fontSize: 12,
+                            ),
                           ),
                           const SizedBox(height: 14),
-                          if (_selectedImage != null && _selectedImageBytes != null)
+                          if (_selectedImage != null &&
+                              _selectedImageBytes != null)
                             Row(
                               children: [
                                 ClipRRect(
@@ -472,27 +525,44 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                                 const SizedBox(width: 14),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         _selectedImage!.name,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 13,
+                                        ),
                                       ),
                                       const SizedBox(height: 4),
                                       const Row(
                                         children: [
-                                          Icon(Icons.check_circle, size: 14, color: AppColors.statusResolved),
+                                          Icon(
+                                            Icons.check_circle,
+                                            size: 14,
+                                            color: AppColors.statusResolved,
+                                          ),
                                           SizedBox(width: 4),
-                                          Text('Ready to upload', style: TextStyle(color: AppColors.statusResolved, fontSize: 12)),
+                                          Text(
+                                            'Ready to upload',
+                                            style: TextStyle(
+                                              color: AppColors.statusResolved,
+                                              fontSize: 12,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ],
                                   ),
                                 ),
                                 IconButton(
-                                  icon: const Icon(Icons.delete_outline, color: AppColors.priorityCritical),
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    color: AppColors.priorityCritical,
+                                  ),
                                   tooltip: 'Remove photo',
                                   onPressed: () => setState(() {
                                     _selectedImage = null;
@@ -507,8 +577,12 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                                 Expanded(
                                   flex: 3,
                                   child: ElevatedButton.icon(
-                                    onPressed: () => _pickImage(ImageSource.camera),
-                                    icon: const Icon(Icons.camera_alt, size: 18),
+                                    onPressed: () =>
+                                        _pickImage(ImageSource.camera),
+                                    icon: const Icon(
+                                      Icons.camera_alt,
+                                      size: 18,
+                                    ),
                                     label: const Text('Instant Camera'),
                                   ),
                                 ),
@@ -516,8 +590,12 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                                 Expanded(
                                   flex: 2,
                                   child: OutlinedButton.icon(
-                                    onPressed: () => _pickImage(ImageSource.gallery),
-                                    icon: const Icon(Icons.photo_library, size: 18),
+                                    onPressed: () =>
+                                        _pickImage(ImageSource.gallery),
+                                    icon: const Icon(
+                                      Icons.photo_library,
+                                      size: 18,
+                                    ),
                                     label: const Text('Gallery'),
                                   ),
                                 ),
@@ -536,9 +614,15 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                         ? const SizedBox(
                             height: 22,
                             width: 22,
-                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.2),
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2.2,
+                            ),
                           )
-                        : const Text('Submit Complaint', style: TextStyle(fontSize: 16)),
+                        : const Text(
+                            'Submit Complaint',
+                            style: TextStyle(fontSize: 16),
+                          ),
                   ),
                   const SizedBox(height: 24),
                 ],
@@ -563,10 +647,16 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
             SizedBox(
               width: 16,
               height: 16,
-              child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.aiBadge),
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: AppColors.aiBadge,
+              ),
             ),
             SizedBox(width: 10),
-            Text('Analyzing description for smart routing...', style: TextStyle(color: AppColors.aiBadge, fontSize: 13)),
+            Text(
+              'Analyzing description for smart routing...',
+              style: TextStyle(color: AppColors.aiBadge, fontSize: 13),
+            ),
           ],
         ),
       );
@@ -585,16 +675,27 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
         children: [
           Row(
             children: [
-              const Icon(Icons.auto_awesome, color: AppColors.aiBadge, size: 18),
+              const Icon(
+                Icons.auto_awesome,
+                color: AppColors.aiBadge,
+                size: 18,
+              ),
               const SizedBox(width: 6),
               const Text(
                 'AI Triage Suggestion',
-                style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.aiBadge),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.aiBadge,
+                ),
               ),
               const Spacer(),
               Text(
                 '${(ai.overallConfidence * 100).toInt()}% Match',
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.aiBadge),
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.aiBadge,
+                ),
               ),
             ],
           ),
@@ -606,7 +707,10 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
           const SizedBox(height: 4),
           Text(
             'Department: ${ai.recommendedDepartment}',
-            style: const TextStyle(fontSize: 12, color: AppColors.textSecondaryLight),
+            style: const TextStyle(
+              fontSize: 12,
+              color: AppColors.textSecondaryLight,
+            ),
           ),
           const SizedBox(height: 10),
           OutlinedButton.icon(

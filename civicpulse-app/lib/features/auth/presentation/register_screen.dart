@@ -39,12 +39,16 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     setState(() => _errorMessage = null);
 
     try {
-      await ref.read(authControllerProvider.notifier).register(
+      await ref
+          .read(authControllerProvider.notifier)
+          .register(
             email: _emailController.text.trim(),
             password: _passwordController.text,
             firstName: _firstNameController.text.trim(),
             lastName: _lastNameController.text.trim(),
-            phone: _phoneController.text.trim().isNotEmpty ? _phoneController.text.trim() : null,
+            phone: _phoneController.text.trim().isNotEmpty
+                ? _phoneController.text.trim()
+                : null,
           );
       if (mounted) {
         context.go('/');
@@ -56,9 +60,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           msg = 'Too many requests. Please wait a minute.';
         } else if (e.response?.statusCode == 409) {
           msg = 'Email address or phone number is already registered.';
-        } else if (e.response?.data is Map && (e.response!.data as Map)['detail'] != null) {
+        } else if (e.response?.data is Map &&
+            (e.response!.data as Map)['detail'] != null) {
           msg = (e.response!.data as Map)['detail'].toString();
-        } else if (e.response?.data is Map && (e.response!.data as Map)['errors'] != null) {
+        } else if (e.response?.data is Map &&
+            (e.response!.data as Map)['errors'] != null) {
           final errs = (e.response!.data as Map)['errors'] as List;
           if (errs.isNotEmpty) msg = errs.first.toString();
         } else if (e.type == DioExceptionType.connectionError) {
@@ -80,11 +86,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Create Account', style: TextStyle(fontWeight: FontWeight.bold)),
+          title: const Text(
+            'Create Account',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
         body: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 20.0,
+            ),
             child: Form(
               key: _formKey,
               child: Column(
@@ -95,18 +107,31 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       padding: const EdgeInsets.all(12),
                       margin: const EdgeInsets.only(bottom: 20),
                       decoration: BoxDecoration(
-                        color: AppColors.priorityCritical.withValues(alpha: 0.08),
+                        color: AppColors.priorityCritical.withValues(
+                          alpha: 0.08,
+                        ),
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: AppColors.priorityCritical.withValues(alpha: 0.3)),
+                        border: Border.all(
+                          color: AppColors.priorityCritical.withValues(
+                            alpha: 0.3,
+                          ),
+                        ),
                       ),
                       child: Row(
                         children: [
-                          const Icon(Icons.error_outline, color: AppColors.priorityCritical, size: 20),
+                          const Icon(
+                            Icons.error_outline,
+                            color: AppColors.priorityCritical,
+                            size: 20,
+                          ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Text(
                               _errorMessage!,
-                              style: const TextStyle(color: AppColors.priorityCritical, fontSize: 13),
+                              style: const TextStyle(
+                                color: AppColors.priorityCritical,
+                                fontSize: 13,
+                              ),
                             ),
                           ),
                         ],
@@ -118,8 +143,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         child: TextFormField(
                           controller: _firstNameController,
                           textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(labelText: 'First Name *'),
-                          validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
+                          decoration: const InputDecoration(
+                            labelText: 'First Name *',
+                          ),
+                          validator: (v) =>
+                              v == null || v.trim().isEmpty ? 'Required' : null,
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -127,8 +155,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         child: TextFormField(
                           controller: _lastNameController,
                           textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(labelText: 'Last Name *'),
-                          validator: (v) => v == null || v.trim().isEmpty ? 'Required' : null,
+                          decoration: const InputDecoration(
+                            labelText: 'Last Name *',
+                          ),
+                          validator: (v) =>
+                              v == null || v.trim().isEmpty ? 'Required' : null,
                         ),
                       ),
                     ],
@@ -144,8 +175,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       prefixIcon: Icon(Icons.email_outlined),
                     ),
                     validator: (v) {
-                      if (v == null || v.trim().isEmpty) return 'Please enter your email';
-                      if (!v.contains('@')) return 'Enter a valid email address';
+                      if (v == null || v.trim().isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (!v.contains('@')) {
+                        return 'Enter a valid email address';
+                      }
                       return null;
                     },
                   ),
@@ -171,12 +206,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       hintText: 'Minimum 8 characters',
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
-                        icon: Icon(_obscurePassword ? Icons.visibility_off_outlined : Icons.visibility_outlined),
-                        onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                        icon: Icon(
+                          _obscurePassword
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                        ),
+                        onPressed: () => setState(
+                          () => _obscurePassword = !_obscurePassword,
+                        ),
                       ),
                     ),
                     validator: (v) {
-                      if (v == null || v.length < 8) return 'Password must be at least 8 characters';
+                      if (v == null || v.length < 8) {
+                        return 'Password must be at least 8 characters';
+                      }
                       return null;
                     },
                   ),

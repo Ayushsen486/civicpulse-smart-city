@@ -15,11 +15,9 @@ class AuthRepository {
   final Dio _dio;
   final TokenStorage _tokenStorage;
 
-  AuthRepository({
-    required Dio dio,
-    required TokenStorage tokenStorage,
-  })  : _dio = dio,
-        _tokenStorage = tokenStorage;
+  AuthRepository({required Dio dio, required TokenStorage tokenStorage})
+    : _dio = dio,
+      _tokenStorage = tokenStorage;
 
   Future<UserModel> login({
     required String email,
@@ -28,10 +26,7 @@ class AuthRepository {
     try {
       final response = await _dio.post(
         ApiEndpoints.login,
-        data: {
-          'email': email.trim(),
-          'password': password,
-        },
+        data: {'email': email.trim(), 'password': password},
       );
 
       final data = response.data['data'];
@@ -43,10 +38,7 @@ class AuthRepository {
         accessToken: accessToken,
         refreshToken: refreshToken,
       );
-      await _tokenStorage.saveUserData(
-        userId: user.id,
-        role: user.role,
-      );
+      await _tokenStorage.saveUserData(userId: user.id, role: user.role);
 
       return user;
     } on DioException catch (e) {
@@ -60,16 +52,14 @@ class AuthRepository {
             firstName: 'Rahul',
             lastName: 'Sharma',
             role: 'CITIZEN',
-            avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+            avatarUrl:
+                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
           );
           await _tokenStorage.saveTokens(
             accessToken: 'demo_token_citizen',
             refreshToken: 'demo_refresh_token_citizen',
           );
-          await _tokenStorage.saveUserData(
-            userId: user.id,
-            role: user.role,
-          );
+          await _tokenStorage.saveUserData(userId: user.id, role: user.role);
           return user;
         } else if (clean == 'officer@civicpulse.city') {
           final user = UserModel(
@@ -83,10 +73,7 @@ class AuthRepository {
             accessToken: 'demo_token_officer',
             refreshToken: 'demo_refresh_token_officer',
           );
-          await _tokenStorage.saveUserData(
-            userId: user.id,
-            role: user.role,
-          );
+          await _tokenStorage.saveUserData(userId: user.id, role: user.role);
           return user;
         }
       }
@@ -94,9 +81,7 @@ class AuthRepository {
     }
   }
 
-  Future<UserModel> loginWithGoogle({
-    required String idToken,
-  }) async {
+  Future<UserModel> loginWithGoogle({required String idToken}) async {
     final response = await _dio.post(
       ApiEndpoints.googleLogin,
       data: {'idToken': idToken},
@@ -111,10 +96,7 @@ class AuthRepository {
       accessToken: accessToken,
       refreshToken: refreshToken,
     );
-    await _tokenStorage.saveUserData(
-      userId: user.id,
-      role: user.role,
-    );
+    await _tokenStorage.saveUserData(userId: user.id, role: user.role);
 
     return user;
   }
@@ -146,10 +128,7 @@ class AuthRepository {
       accessToken: accessToken,
       refreshToken: refreshToken,
     );
-    await _tokenStorage.saveUserData(
-      userId: user.id,
-      role: user.role,
-    );
+    await _tokenStorage.saveUserData(userId: user.id, role: user.role);
 
     return user;
   }
@@ -165,7 +144,8 @@ class AuthRepository {
           firstName: 'Rahul',
           lastName: 'Sharma',
           role: 'CITIZEN',
-          avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+          avatarUrl:
+              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
         );
       }
       if (token == 'demo_token_officer') {
@@ -180,7 +160,9 @@ class AuthRepository {
 
       final response = await _dio.get(ApiEndpoints.me);
       if (response.statusCode == 200 && response.data?['data'] != null) {
-        return UserModel.fromJson(response.data['data'] as Map<String, dynamic>);
+        return UserModel.fromJson(
+          response.data['data'] as Map<String, dynamic>,
+        );
       }
     } catch (_) {
       // Return null if offline or token invalid

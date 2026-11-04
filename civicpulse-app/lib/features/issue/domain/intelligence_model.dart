@@ -26,9 +26,12 @@ class IntelligenceModel {
       suggestedCategoryId: json['suggestedCategoryId'] as String?,
       suggestedCategoryName: json['suggestedCategoryName'] as String?,
       suggestedPriority: json['suggestedPriority'] as String? ?? 'MEDIUM',
-      recommendedDepartment: json['recommendedDepartment'] as String? ?? 'General Administration',
-      categoryConfidence: (json['categoryConfidence'] as num?)?.toDouble() ?? 0.0,
-      priorityConfidence: (json['priorityConfidence'] as num?)?.toDouble() ?? 0.0,
+      recommendedDepartment:
+          json['recommendedDepartment'] as String? ?? 'General Administration',
+      categoryConfidence:
+          (json['categoryConfidence'] as num?)?.toDouble() ?? 0.0,
+      priorityConfidence:
+          (json['priorityConfidence'] as num?)?.toDouble() ?? 0.0,
       overallConfidence: (json['overallConfidence'] as num?)?.toDouble() ?? 0.0,
       explanation: json['explanation'] as String? ?? '',
       needsHumanReview: json['needsHumanReview'] as bool? ?? false,

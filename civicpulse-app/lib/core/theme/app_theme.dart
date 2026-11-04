@@ -48,9 +48,18 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surfaceLight,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        hintStyle: const TextStyle(color: AppColors.textSecondaryLight, fontSize: 14),
-        labelStyle: const TextStyle(color: AppColors.textSecondaryLight, fontSize: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
+        hintStyle: const TextStyle(
+          color: AppColors.textSecondaryLight,
+          fontSize: 14,
+        ),
+        labelStyle: const TextStyle(
+          color: AppColors.textSecondaryLight,
+          fontSize: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.borderLight),
@@ -69,7 +78,10 @@ class AppTheme {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.priorityCritical, width: 2),
+          borderSide: const BorderSide(
+            color: AppColors.priorityCritical,
+            width: 2,
+          ),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -184,9 +196,18 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surfaceDark,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        hintStyle: const TextStyle(color: AppColors.textSecondaryDark, fontSize: 14),
-        labelStyle: const TextStyle(color: AppColors.textSecondaryDark, fontSize: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
+        hintStyle: const TextStyle(
+          color: AppColors.textSecondaryDark,
+          fontSize: 14,
+        ),
+        labelStyle: const TextStyle(
+          color: AppColors.textSecondaryDark,
+          fontSize: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: AppColors.borderDark),
@@ -205,7 +226,10 @@ class AppTheme {
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.priorityCritical, width: 2),
+          borderSide: const BorderSide(
+            color: AppColors.priorityCritical,
+            width: 2,
+          ),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

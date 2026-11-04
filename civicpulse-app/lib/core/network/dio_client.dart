@@ -35,9 +35,7 @@ final dioProvider = Provider<Dio>((ref) {
     ),
   );
 
-  dio.interceptors.add(
-    JwtInterceptor(dio: dio, tokenStorage: tokenStorage),
-  );
+  dio.interceptors.add(JwtInterceptor(dio: dio, tokenStorage: tokenStorage));
 
   return dio;
 });
