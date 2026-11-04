@@ -32,9 +32,6 @@ RUN chown -R civicpulse:civicpulse /app
 
 USER civicpulse
 
-EXPOSE 8080
+EXPOSE 8080 10000
 
-HEALTHCHECK --interval=15s --timeout=5s --retries=3 --start-period=40s \
-  CMD curl -f http://localhost:8080/actuator/health || exit 1
-
-ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "/app/civicpulse-backend.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-Xms128m", "-Xmx320m", "-XX:+UseSerialGC", "-XX:MaxMetaspaceSize=128m", "-jar", "/app/civicpulse-backend.jar"]
