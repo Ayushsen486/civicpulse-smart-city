@@ -18,8 +18,8 @@ RUN ./gradlew bootJar --no-daemon -x test
 # Stage 2: Minimal, hardened production runtime
 FROM eclipse-temurin:21-jre-alpine AS runner
 
-# Install curl for container health check
-RUN apk add --no-cache curl
+# Install curl and CA certificates for secure cloud TLS connections
+RUN apk add --no-cache curl ca-certificates && update-ca-certificates
 
 # Run as non-privileged system user per AGENTS.md security guidelines
 RUN addgroup -S civicpulse && adduser -S civicpulse -G civicpulse
@@ -34,4 +34,4 @@ USER civicpulse
 
 EXPOSE 8080 10000
 
-ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-Xms128m", "-Xmx320m", "-XX:+UseSerialGC", "-XX:MaxMetaspaceSize=128m", "-jar", "/app/civicpulse-backend.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-Xms128m", "-Xmx320m", "-XX:+UseSerialGC", "-XX:MaxMetaspaceSize=128m", "-Djdk.tls.client.protocols=TLSv1.2,TLSv1.3", "-jar", "/app/civicpulse-backend.jar"]
