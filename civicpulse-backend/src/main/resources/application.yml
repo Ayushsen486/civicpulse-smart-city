@@ -10,6 +10,12 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:civicpulse}
     password: ${SPRING_DATASOURCE_PASSWORD:changeme_local_only}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 5
+      data-source-properties:
+        sslfactory: org.postgresql.ssl.NonValidatingFactory
+        sslmode: require
 
   jpa:
     hibernate:
