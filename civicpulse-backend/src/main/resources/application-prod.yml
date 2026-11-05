@@ -1,4 +1,4 @@
-# CivicPulse — Production Spring Profile
+
 spring:
   config:
     activate:
@@ -24,6 +24,7 @@ management:
     web:
       exposure:
         include: health,info,metrics
+
   endpoint:
     health:
       show-details: when_authorized
